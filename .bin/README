@@ -1,0 +1,9 @@
+This file should not be manually modified and is intentionally empty.
+
+Upon compilation/ assembly of OS, this directory is used to hold binary files.
+These files allow the creation of the OS ISO file, which can be run using 
+command '$ ./run'. The 'run' bash script file is hidden as '.run' when not
+active (i.e. OS not compiled and assembled, this file empty).
+
+DO NOT DELETE THIS FILE.
+
