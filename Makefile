@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -m32 -ffreestanding
+CFLAGS = -m32 -ffreestanding 
 AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -m elf_i386 -Ttext 0x1000 --oformat binary
@@ -17,8 +17,8 @@ all: bootloader.bin kernel.bin
 bootloader.bin:
 	$(AS) boot/bootloader.asm -f bin -o bootloader.bin
 
-kernel.bin: kernel_entry.o kernel.o screen.o ioports.o
-	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o
+kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o
+	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o
 	chmod -x kernel.bin
 
 kernel_entry.o:
@@ -32,6 +32,9 @@ screen.o:
 
 ioports.o:
 	$(AS) drivers/ioports.asm $(ASFLAGS) -o ioports.o
+
+idt.o:
+	$(CC) $(CFLAGS) -c drivers/idt.c -o idt.o
 
 .PHONY: clean
 clean:

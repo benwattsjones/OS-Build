@@ -1,1 +1,2 @@
 .pre_git_legacy/
+boot/idt.asm

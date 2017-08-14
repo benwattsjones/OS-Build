@@ -1,9 +1,11 @@
 // This is the main kernel file. It is entered at main()
 
 #include "../drivers/screen.h"
+#include "../drivers/idt.h"
 
 int main() 
 {
+    idt_initialize();
     clear_screen();
     char *pstr = "hello my name is ben\n\0";
     int i;
