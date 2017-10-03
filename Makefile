@@ -6,8 +6,11 @@ LDFLAGS = -m elf_i386 -Ttext 0x1000 --oformat binary
 
 all: bootloader.bin kernel.bin 
 	cat bootloader.bin kernel.bin > OS.bin
-	dd if=OS.bin of=OS.iso
-	fallocate -l 5120 OS.iso # Make iso 10 pages long
+	dd if=/dev/zero of=OS.img bs=512 count=2880 # 2880 pages long for El-Torito ISO 9660 floppy disk ISO
+	dd if=OS.bin of=OS.img seek=0 conv=notrunc
+	mv .iso iso
+	mv OS.img iso/
+	mkisofs -quiet -V 'MyOS' -input-charset iso8859-1 -o OS.iso -b OS.img -hide OS.img iso/
 	mv .bin bin
 	mv *.bin bin
 	mv *.o bin
@@ -39,6 +42,8 @@ idt.o:
 .PHONY: clean
 clean:
 	rm *.iso
+	rm iso/*
+	mv iso .iso
 	rm bin/*
 	mv bin .bin
 	chmod -x run
