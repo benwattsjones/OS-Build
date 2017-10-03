@@ -17,8 +17,8 @@ all: bootloader.bin kernel.bin
 bootloader.bin:
 	$(AS) boot/bootloader.asm -f bin -o bootloader.bin
 
-kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o
-	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o
+kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o gdt.o
+	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o gdt.o
 	chmod -x kernel.bin
 
 kernel_entry.o:
@@ -35,6 +35,9 @@ ioports.o:
 
 idt.o:
 	$(CC) $(CFLAGS) -c drivers/idt.c -o idt.o
+
+gdt.o:
+	$(CC) $(CFLAGS) -c drivers/gdt.c -o gdt.o
 
 .PHONY: clean
 clean:

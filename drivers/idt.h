@@ -1,3 +1,6 @@
+#ifndef DRIVERS_IDT_H
+#define DRIVERS_IDT_H
+
 #include <stdint.h>
 
 #define X86_MAX_INTERRUPTS 256
@@ -12,8 +15,10 @@ struct idt_descriptor
     uint8_t bitFlags;
     // High bits (16-32) ofinterrupt request (IRQ) routine address
     uint16_t irqAddrHigh;
-};
+} __attribute__((packed));
 
 typedef void (*IRG_HANDLER)(void); 
 
 void idt_initialize();
+
+#endif
