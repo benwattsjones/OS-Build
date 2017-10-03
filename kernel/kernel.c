@@ -2,11 +2,9 @@
 
 #include "../drivers/screen.h"
 #include "../drivers/idt.h"
-#include "../drivers/gdt.h"
 
 int main() 
 {
-//    gdt_initialize();
     idt_initialize();
     clear_screen();
     char *pstr = "hello my name is ben\n\0";
