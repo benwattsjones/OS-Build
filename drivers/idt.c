@@ -47,9 +47,6 @@ void idt_initialize()
 {
     _idtr.limit = sizeof(struct idt_descriptor) * X86_MAX_INTERRUPTS - 1;
     _idtr.base = (uint32_t)&_idt[0];
-    // null out the idt
-    //memset((void*)&_idt[0], 0, sizeof(struct idt_descriptor) 
-    //       * (X86_MAX_INTERRUPTS - 1));
     // register default handlers
     int i;
     for (i = 0; i < X86_MAX_INTERRUPTS; i++)
