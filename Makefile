@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -m32 -ffreestanding 
+CFLAGS = -m32 -ffreestanding -fno-pic 
 AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -m elf_i386 -Ttext 0x1000 --oformat binary

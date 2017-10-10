@@ -83,6 +83,39 @@
 // (CURSOR_LOCATION_LOW_OFFSET), I/O ports can be used to read and write
 // values for the cursor location.
 
+int handle_scrolling(int cursor_offset);
+
+int get_cursor()
+{
+    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
+    int offset = port_byte_in(REG_SCREEN_DATA) << 8;
+    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
+    offset += port_byte_in(REG_SCREEN_DATA);
+    return offset * 2;
+}
+
+void memory_copy(char *source, char *dest, int no_bytes)
+{
+    int i;
+    for (i = 0; i < no_bytes; i++) {
+        *(dest + i) = *(source + i);
+    }
+}
+
+void set_cursor(int offset)
+{
+    offset /= 2;
+    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
+    port_byte_out(REG_SCREEN_DATA, (unsigned char) (offset >> 8));
+    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
+    port_byte_out(REG_SCREEN_DATA, (unsigned char) (offset & 0xff));
+}
+
+int get_screen_offset(int cols, int rows)
+{
+    return (rows*MAX_COLS + cols) * 2; 
+}
+
 void print_char(char character, int col, int row, char attribute_byte)
 {
     volatile unsigned char *vidmem = (volatile unsigned char *) VIDEO_ADDRESS;
@@ -115,37 +148,6 @@ void print_char(char character, int col, int row, char attribute_byte)
     offset = handle_scrolling(offset);
     // Update the cursor position on the screen device
     set_cursor(offset);
-}
-
-int get_screen_offset(int cols, int rows)
-{
-    return (rows*MAX_COLS + cols) * 2; 
-}
-
-int get_cursor()
-{
-    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
-    int offset = port_byte_in(REG_SCREEN_DATA) << 8;
-    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
-    offset += port_byte_in(REG_SCREEN_DATA);
-    return offset * 2;
-}
-
-void set_cursor(int offset)
-{
-    offset /= 2;
-    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
-    port_byte_out(REG_SCREEN_DATA, (unsigned char) (offset >> 8));
-    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
-    port_byte_out(REG_SCREEN_DATA, (unsigned char) (offset & 0xff));
-}
-
-void memory_copy(char *source, char *dest, int no_bytes)
-{
-    int i;
-    for (i = 0; i < no_bytes; i++) {
-        *(dest + i) = *(source + i);
-    }
 }
 
 int handle_scrolling(int cursor_offset)
