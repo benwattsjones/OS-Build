@@ -23,7 +23,7 @@ static void idt_install()
 
 void idt_default_handler()
 {
-    print("Error: Unhandled Exception");
+    print("Error: Unhandled Exception\n\0");
     //for (;;) ;
 }
 

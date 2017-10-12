@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include "ioports.h"
 
 #define PIC_1_CTRL 0x20  // primary PIC control register
@@ -15,6 +17,8 @@
 
 #define ICW_4 0x01  // bit 0 enables 80x86 mode
 
+#define PIC_EOI 0x20
+
 void initializePIC()
 {
     port_byte_out(PIC_1_CTRL, ICW_1);
@@ -27,4 +31,11 @@ void initializePIC()
     port_byte_out(PIC_2_DATA, ICW_4);
     port_byte_out(PIC_1_DATA, 0);
     port_byte_out(PIC_2_DATA, 0);
+}
+
+void sendPICEOI(uint8_t irq)
+{
+    if (irq >=8)
+        port_byte_out(PIC_2_CTRL, PIC_EOI);
+    port_byte_out(PIC_1_CTRL, PIC_EOI);
 }

@@ -4,6 +4,7 @@
 #include "../drivers/idt.h"
 #include "../drivers/pic.h"
 #include "../drivers/pit.h"
+#include "../drivers/interrupts.h"
 
 int main() 
 {
@@ -11,6 +12,7 @@ int main()
     clear_screen();
     initializePIC();
     timer_init();
+    initializeHardwareInterrupts();
     char *pstr = "hello my name is ben\n\0";
     int i;
     for (i = 0; i < 16; i++) {
@@ -22,7 +24,11 @@ int main()
     for (i = 0; i < 10; i++) {
         print(pstr);
     }
-    __asm__ ("int $0");
+//    __asm__ ("int $0");
     __asm__ __volatile__ ("sti");
+//    __asm__ ("int $80");
+//    __asm__ ("int $85");
+    for (;;)
+        __asm__ ("hlt");
     return 0;
 }

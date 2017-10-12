@@ -19,6 +19,8 @@ struct idt_descriptor
 
 typedef void (*IRG_HANDLER)(void); 
 
+void install_ir(uint32_t ir_code, IRG_HANDLER irq);
+
 void idt_initialize();
 
 #endif

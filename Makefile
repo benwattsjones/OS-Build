@@ -20,8 +20,8 @@ all: bootloader.bin kernel.bin
 bootloader.bin:
 	$(AS) boot/bootloader.asm -f bin -o bootloader.bin
 
-kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o
-	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o
+kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o
+	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o
 	chmod -x kernel.bin
 
 kernel_entry.o:
@@ -44,6 +44,9 @@ pic.o:
 
 pit.o:
 	$(AS) drivers/pit.asm $(ASFLAGS) -o pit.o
+
+interrupts.o:
+	$(CC) $(CFLAGS) -c drivers/interrupts.c -o interrupts.o
 
 .PHONY: clean
 clean:
