@@ -2,11 +2,15 @@
 
 #include "../drivers/screen.h"
 #include "../drivers/idt.h"
+#include "../drivers/pic.h"
+#include "../drivers/pit.h"
 
 int main() 
 {
     idt_initialize();
     clear_screen();
+    initializePIC();
+    timer_init();
     char *pstr = "hello my name is ben\n\0";
     int i;
     for (i = 0; i < 16; i++) {
@@ -18,6 +22,7 @@ int main()
     for (i = 0; i < 10; i++) {
         print(pstr);
     }
-    __asm__ ("int $0x80");
+    __asm__ ("int $0");
+    __asm__ __volatile__ ("sti");
     return 0;
 }

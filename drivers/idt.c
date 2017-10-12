@@ -24,7 +24,7 @@ static void idt_install()
 void idt_default_handler()
 {
     print("Error: Unhandled Exception");
-    for (;;) ;
+    //for (;;) ;
 }
 
 void install_ir(uint32_t ir_code, IRG_HANDLER irq)
