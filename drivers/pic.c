@@ -29,13 +29,13 @@ void initializePIC()
     port_byte_out(PIC_2_DATA, ICW_3_SEC);
     port_byte_out(PIC_1_DATA, ICW_4);
     port_byte_out(PIC_2_DATA, ICW_4);
-    port_byte_out(PIC_1_DATA, 0);
-    port_byte_out(PIC_2_DATA, 0);
+    port_byte_out(PIC_1_DATA, 0x00);
+    port_byte_out(PIC_2_DATA, 0x00);
 }
 
 void sendPICEOI(uint8_t irq)
 {
+    port_byte_out(PIC_1_CTRL, PIC_EOI);
     if (irq >=8)
         port_byte_out(PIC_2_CTRL, PIC_EOI);
-    port_byte_out(PIC_1_CTRL, PIC_EOI);
 }

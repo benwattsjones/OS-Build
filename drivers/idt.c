@@ -24,6 +24,7 @@ static void idt_install()
 void idt_default_handler()
 {
     print("Error: Unhandled Exception\n\0");
+    __asm__ ("sti");
     //for (;;) ;
 }
 

@@ -24,9 +24,9 @@ int main()
     for (i = 0; i < 10; i++) {
         print(pstr);
     }
-//    __asm__ ("int $0");
+    __asm__ ("int $0");
     __asm__ __volatile__ ("sti");
-//    __asm__ ("int $80");
+    __asm__ ("int $80");
 //    __asm__ ("int $85");
     for (;;)
         __asm__ ("hlt");
