@@ -1,5 +1,5 @@
 #include "screen.h"
-#include "ioports.h"
+#include "../cpu/ioports.h"
 
 // Useful reference: http://www.brokenthorn.com/Resources/OSDev10.html
 // This file codes for a screen driver for text-based display

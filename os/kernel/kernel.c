@@ -1,10 +1,10 @@
 // This is the main kernel file. It is entered at main()
 
 #include "../drivers/screen.h"
-#include "../drivers/idt.h"
-#include "../drivers/pic.h"
-#include "../drivers/pit.h"
-#include "../drivers/interrupts.h"
+#include "../cpu/idt.h"
+#include "../cpu/pic.h"
+#include "../cpu/pit.h"
+#include "../cpu/interrupts.h"
 
 int main() 
 {

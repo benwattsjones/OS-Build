@@ -93,9 +93,9 @@ task5_load_gdt:
     jmp CODE_SEG:task6_setup_protected_mode
 
 ; Note code here jumped over - paths relative to Makefile
-%include "boot/print_16bit.asm"
-%include "boot/read_sectors_16bit.asm"
-%include "boot/gdt.asm"
+%include "os/boot/print_16bit.asm"
+%include "os/boot/read_sectors_16bit.asm"
+%include "os/boot/gdt.asm"
 
 [bits 32]
 ; Initialise registers and stack once in protected mode

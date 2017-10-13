@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 #include "interrupts.h"
-#include "screen.h"
+#include "../drivers/screen.h"
 #include "idt.h"
 #include "pic.h"
 #include "ioports.h"

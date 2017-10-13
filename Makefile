@@ -6,7 +6,8 @@ LDFLAGS = -m elf_i386 -Ttext 0x1000 --oformat binary
 
 all: bootloader.bin kernel.bin 
 	cat bootloader.bin kernel.bin > OS.bin
-	dd if=/dev/zero of=OS.img bs=512 count=2880 # 2880 pages long for El-Torito ISO 9660 floppy disk ISO
+	# 2880 pages long for El-Torito ISO 9660 floppy disk ISO
+	dd if=/dev/zero of=OS.img bs=512 count=2880 
 	dd if=OS.bin of=OS.img seek=0 conv=notrunc
 	mv .iso iso
 	mv OS.img iso/
@@ -18,35 +19,35 @@ all: bootloader.bin kernel.bin
 	chmod +x run
 
 bootloader.bin:
-	$(AS) boot/bootloader.asm -f bin -o bootloader.bin
+	$(AS) os/boot/bootloader.asm -f bin -o bootloader.bin
 
 kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o
 	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o
 	chmod -x kernel.bin
 
 kernel_entry.o:
-	$(AS) kernel/kernel_entry.asm $(ASFLAGS) -o kernel_entry.o
+	$(AS) os/kernel/kernel_entry.asm $(ASFLAGS) -o $@
 
 kernel.o:
-	$(CC) $(CFLAGS) -c kernel/kernel.c -o kernel.o
+	$(CC) $(CFLAGS) -c os/kernel/kernel.c -o $@
 
 screen.o:
-	$(CC) $(CFLAGS) -c drivers/screen.c -o screen.o
+	$(CC) $(CFLAGS) -c os/drivers/screen.c -o $@
 
 ioports.o:
-	$(AS) drivers/ioports.asm $(ASFLAGS) -o ioports.o
+	$(AS) os/cpu/ioports.asm $(ASFLAGS) -o $@
 
 idt.o:
-	$(CC) $(CFLAGS) -c drivers/idt.c -o idt.o
+	$(CC) $(CFLAGS) -c os/cpu/idt.c -o $@
 
 pic.o:
-	$(CC) $(CFLAGS) -c drivers/pic.c -o pic.o
+	$(CC) $(CFLAGS) -c os/cpu/pic.c -o $@
 
 pit.o:
-	$(AS) drivers/pit.asm $(ASFLAGS) -o pit.o
+	$(AS) os/cpu/pit.asm $(ASFLAGS) -o $@
 
 interrupts.o:
-	$(CC) $(CFLAGS) -c drivers/interrupts.c -o interrupts.o
+	$(CC) $(CFLAGS) -c os/cpu/interrupts.c -o $@
 
 .PHONY: clean
 clean:

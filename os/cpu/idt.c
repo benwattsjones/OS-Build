@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include "screen.h" 
+#include "../drivers/screen.h" 
 #include "idt.h"
 
 static struct idt_descriptor _idt[X86_MAX_INTERRUPTS];
