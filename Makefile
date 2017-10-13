@@ -44,7 +44,7 @@ pic.o:
 	$(CC) $(CFLAGS) -c os/cpu/pic.c -o $@
 
 pit.o:
-	$(AS) os/cpu/pit.asm $(ASFLAGS) -o $@
+	$(CC) $(CFLAGS) -c os/cpu/pit.c -o $@
 
 interrupts.o:
 	$(CC) $(CFLAGS) -c os/cpu/interrupts.c -o $@

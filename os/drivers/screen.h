@@ -1,17 +1,25 @@
 #ifndef DRIVER_SCREEN_H
 #define DRIVER_SCREEN_H
 
-#define VIDEO_ADDRESS 0xb8000
-#define MAX_ROWS 24 // only use 24 of 25 rows as cursor cannot be seen on 25th
-#define MAX_COLS 80
-#define DEF_STYLE 0x07
+#define BLUE_FOREGROUND 0x01
+#define GREEN_FOREGROUND 0x02
+#define CYAN_FOREGROUND 0x03
+#define RED_ORANGE_FOREGROUND 0x04
+#define MAGENTA_FOREGROUND 0x05
+#define BROWN_FOREGROUND 0x06
+#define GREY_WHITE_FOREGROUND 0x07
 
-// Screen device I/O ports
-#define REG_SCREEN_CTRL 0x3d4
-#define REG_SCREEN_DATA 0x3d5
+#define INTENSE_FOREGROUND 0x08
 
-#define CURSOR_LOCATION_HIGH_OFFSET 0xe
-#define CURSOR_LOCATION_LOW_OFFSET 0xf
+#define BLUE_BACKGROUND 0x10
+#define GREEN_BACKGROUND 0x20
+#define CYAN_BACKGROUND 0x30
+#define RED_ORANGE_BACKGROUND 0x40
+#define MAGENTA_BACKGROUND 0x50
+#define BROWN_BACKGROUND 0x60
+#define GREY_WHITE_BACKGROUND 0x70
+
+#define INTENSE_BACKGROUND 0x80
 
 // Returns offset (in bytes NOT chars)
 int get_cursor();
