@@ -1,6 +1,19 @@
 #include "screen.h"
 #include "../cpu/ioports.h"
 
+#define VIDEO_ADDRESS 0xb8000
+#define MAX_ROWS 24 // only use 24 of 25 rows as cursor cannot be seen on 25th
+#define MAX_COLS 80
+#define DEF_STYLE 0x07
+
+// Screen device I/O ports
+#define REG_SCREEN_CTRL 0x3d4
+#define REG_SCREEN_DATA 0x3d5
+
+#define CURSOR_LOCATION_HIGH_OFFSET 0xe
+#define CURSOR_LOCATION_LOW_OFFSET 0xf
+
+
 // Useful reference: http://www.brokenthorn.com/Resources/OSDev10.html
 // This file codes for a screen driver for text-based display
 
@@ -82,18 +95,6 @@
 // Thus, using 0xE (CURSOR_LOCATION_HIGH_OFFSET) and 0xF
 // (CURSOR_LOCATION_LOW_OFFSET), I/O ports can be used to read and write
 // values for the cursor location.
-
-#define VIDEO_ADDRESS 0xb8000
-#define MAX_ROWS 24 // only use 24 of 25 rows as cursor cannot be seen on 25th
-#define MAX_COLS 80
-#define DEF_STYLE 0x07
-
-// Screen device I/O ports
-#define REG_SCREEN_CTRL 0x3d4
-#define REG_SCREEN_DATA 0x3d5
-
-#define CURSOR_LOCATION_HIGH_OFFSET 0xe
-#define CURSOR_LOCATION_LOW_OFFSET 0xf
 
 int handle_scrolling(int cursor_offset);
 

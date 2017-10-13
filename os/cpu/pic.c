@@ -19,6 +19,37 @@
 
 #define PIC_EOI 0x20
 
+/* The PIC fires hardware IRQs. There are typically two PICs, a master
+ * and a slave, each with 8 pins for different hardware interrupts.
+ * The PICs must be initialised so they know which IRs to call. This
+ * involves sending a series of initialization control words (ICWs) to
+ * the ports defined above.
+ * ICW1 is 00010001b (0x11)
+ *                +- PIC expects to recieve all 4 ICWs
+ *               +-- Two PICs total
+ *              +--- Not used in x86
+ *             +---- Operate in edge triggered, not level triggered
+ *                   mode. An IR corresponds to a single electrical 
+ *                   pulse
+ *            +----- PIC is being initialized
+ *         +++------ Reserved
+ * ICW2 gives the base address of the idt for interrupts to use. We
+ * are using 32 (0x20) as the first, as this is the first non-preset/
+ * reserved interrupt number. As each PIC has 8 pins, the slave PIC
+ * starts at interrupt number 0x28.
+ * ICW3 tells which IRQ line (pin) on the master PIC connects to the 
+ * slave PIC. In x86, this must be line 2, which corresponds to 0x04
+ * (bit 2) for the master PIC and 0x02 (binary 2) for the slave PIC.
+ * ICW4 tells the PICs that we are operating in x86 mode as bit 0 is 1.
+ * Finally, we write to the interrupt mask register (same port as data
+ * register), to tell it which IRQs are allowed to fire. Each bit corresponds
+ * to an IRQ, with 0 allowing it to fire. Thus we send 0x00 to allow all
+ * IRQs to fire.
+ *
+ * An end of interrupt signal (EOI) must also be sent after each interrupt
+ * to allow subsiquent interrupts.
+ */
+
 void initializePIC()
 {
     port_byte_out(PIC_1_CTRL, ICW_1);

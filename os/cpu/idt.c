@@ -3,6 +3,20 @@
 #include "../drivers/screen.h" 
 #include "idt.h"
 
+/* There are hardware and software interrupts. This file initialises software
+ * interrupts (e.g. INT $0x80). When an interrupt is fired, its interrupt 
+ * handler must be called. Like the GDT, there is a IDT (interrupt descriptor
+ * table). The IDT is an array of length 256 (one element for each interrupt/
+ * interrupt handler). Each element is of size 8 bytes, and amoungst other 
+ * information, contains the address of the interrupt hander function. To 
+ * locate the IDT, the interrupt descriptor table register (IDTR) is loaded
+ * with the start address of the IDT and its size. Thus, for a given interrupt
+ * index, the cpu can locate the appropriate interrupt handler (IR - interrupt
+ * routine; ISR - interrupt service routine) using the formula:
+ * IDTR.baseAddress + index * 8.
+ * We will setup all interrupts to have the same default handler.
+ */
+
 static struct idt_descriptor _idt[X86_MAX_INTERRUPTS];
 
 struct idtr
@@ -25,7 +39,6 @@ void idt_default_handler()
 {
     print("Error: Unhandled Exception\n\0");
     __asm__ ("sti");
-    //for (;;) ;
 }
 
 void install_ir(uint32_t ir_code, IRG_HANDLER irq)
