@@ -62,4 +62,6 @@ clean:
 	chmod -x run
 	mv run .run
 
-
+.PHONY: fail
+fail:
+	rm *.o *.bin

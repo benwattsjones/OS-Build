@@ -52,21 +52,21 @@
 
 void initializePIC()
 {
-    port_byte_out(PIC_1_CTRL, ICW_1);
-    port_byte_out(PIC_2_CTRL, ICW_1);
-    port_byte_out(PIC_1_DATA, IRQ_0);
-    port_byte_out(PIC_2_DATA, IRQ_8);
-    port_byte_out(PIC_1_DATA, ICW_3_PRI);
-    port_byte_out(PIC_2_DATA, ICW_3_SEC);
-    port_byte_out(PIC_1_DATA, ICW_4);
-    port_byte_out(PIC_2_DATA, ICW_4);
-    port_byte_out(PIC_1_DATA, 0x00);
-    port_byte_out(PIC_2_DATA, 0x00);
+    portByteOut(PIC_1_CTRL, ICW_1);
+    portByteOut(PIC_2_CTRL, ICW_1);
+    portByteOut(PIC_1_DATA, IRQ_0);
+    portByteOut(PIC_2_DATA, IRQ_8);
+    portByteOut(PIC_1_DATA, ICW_3_PRI);
+    portByteOut(PIC_2_DATA, ICW_3_SEC);
+    portByteOut(PIC_1_DATA, ICW_4);
+    portByteOut(PIC_2_DATA, ICW_4);
+    portByteOut(PIC_1_DATA, 0x00);
+    portByteOut(PIC_2_DATA, 0x00);
 }
 
 void sendPICEOI(uint8_t irq)
 {
-    port_byte_out(PIC_1_CTRL, PIC_EOI);
+    portByteOut(PIC_1_CTRL, PIC_EOI);
     if (irq >=8)
-        port_byte_out(PIC_2_CTRL, PIC_EOI);
+        portByteOut(PIC_2_CTRL, PIC_EOI);
 }

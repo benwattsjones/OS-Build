@@ -5,7 +5,7 @@
 
 void initializeInterrupts()
 {
-    idt_initialize();
+    initializeIDT();
     initializePIC();
     timer_init();
     initializeHardwareInterrupts();

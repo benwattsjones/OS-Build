@@ -1,8 +1,8 @@
 [bits 32]
 
-global port_byte_in
+global portByteIn
 
-port_byte_in:
+portByteIn:
     push ebp
     mov ebp, esp
     ; function takes one arguement:
@@ -14,9 +14,9 @@ port_byte_in:
     pop ebp
     ret
 
-global port_byte_out
+global portByteOut
 
-port_byte_out:
+portByteOut:
     push ebp
     mov ebp, esp
     ; function takes two arguements:

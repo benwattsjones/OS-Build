@@ -31,9 +31,9 @@
 
 void timer_init()
 {
-    port_byte_out(PIT_CONTROL_WORD_REGISTER, 0x36);
+    portByteOut(PIT_CONTROL_WORD_REGISTER, 0x36);
     uint16_t count = PIT_FREQUENCY / 20;
-    port_byte_out(PIT_COUNTER_0_REGISTER, count & 0x0f);
-    port_byte_out(PIT_COUNTER_0_REGISTER, count >> 8);
+    portByteOut(PIT_COUNTER_0_REGISTER, count & 0x0f);
+    portByteOut(PIT_COUNTER_0_REGISTER, count >> 8);
 }
 

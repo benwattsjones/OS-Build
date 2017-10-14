@@ -5,7 +5,7 @@
 
 #define X86_MAX_INTERRUPTS 256
 
-struct idt_descriptor 
+struct IDTDescriptor 
 {
     // Low bits (0-15) of interrupt request (IRQ) routine address
     uint16_t irqAddrLow;
@@ -26,8 +26,8 @@ struct idt_descriptor
 // Function pointer type for addressing of interrupt handlers
 typedef void (*IRG_HANDLER)(void); 
 
-void install_ir(uint32_t ir_code, IRG_HANDLER irq);
+void installISR(uint32_t ir_code, IRG_HANDLER irq);
 
-void idt_initialize();
+void initializeIDT();
 
 #endif

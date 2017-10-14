@@ -98,12 +98,12 @@
 
 int handle_scrolling(int cursor_offset);
 
-int get_cursor()
+int getCursor()
 {
-    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
-    int offset = port_byte_in(REG_SCREEN_DATA) << 8;
-    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
-    offset += port_byte_in(REG_SCREEN_DATA);
+    portByteOut(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
+    int offset = portByteIn(REG_SCREEN_DATA) << 8;
+    portByteOut(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
+    offset += portByteIn(REG_SCREEN_DATA);
     return offset * 2;
 }
 
@@ -115,13 +115,13 @@ void memory_copy(char *source, char *dest, int no_bytes)
     }
 }
 
-void set_cursor(int offset)
+void setCursor(int offset)
 {
     offset /= 2;
-    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
-    port_byte_out(REG_SCREEN_DATA, (unsigned char) (offset >> 8));
-    port_byte_out(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
-    port_byte_out(REG_SCREEN_DATA, (unsigned char) (offset & 0xff));
+    portByteOut(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
+    portByteOut(REG_SCREEN_DATA, (unsigned char) (offset >> 8));
+    portByteOut(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
+    portByteOut(REG_SCREEN_DATA, (unsigned char) (offset & 0xff));
 }
 
 int get_screen_offset(int cols, int rows)
@@ -141,7 +141,7 @@ void print_char(char character, int col, int row, char attribute_byte)
     if (col >= 0 && row >= 0) {
         offset = get_screen_offset(col, row);
     } else {
-        offset = get_cursor();
+        offset = getCursor();
     }
     // If newline, set offset to end of current row, so it will be advanced to
     // the first col of the next row
@@ -160,7 +160,7 @@ void print_char(char character, int col, int row, char attribute_byte)
     // Make scrolling adjustment, for when we reach bottom of screen.
     offset = handle_scrolling(offset);
     // Update the cursor position on the screen device
-    set_cursor(offset);
+    setCursor(offset);
 }
 
 int handle_scrolling(int cursor_offset)
@@ -188,7 +188,7 @@ int handle_scrolling(int cursor_offset)
     return cursor_offset;
 }
 
-void print_at(char *message, int col, int row, char attribute_byte)
+void printAt(char *message, int col, int row, char attribute_byte)
 {
     int i = 0;
     while (message[i] != 0) {
@@ -198,10 +198,10 @@ void print_at(char *message, int col, int row, char attribute_byte)
 
 void print(char *message)
 {
-    print_at(message, -1, -1, 0);
+    printAt(message, -1, -1, 0);
 }
 
-void clear_screen() 
+void clearScreen() 
 {
     int row;
     int col;
@@ -210,7 +210,7 @@ void clear_screen()
             print_char(' ', col, row, 0);
         }
     }
-    set_cursor(get_screen_offset(0, 0));
+    setCursor(get_screen_offset(0, 0));
 }
 
 

@@ -43,7 +43,7 @@ void handleHardwareInterrupts_keyboard(uint8_t irq)
     __asm__ ("cli");
     print("Error: unhandled KEYBOARD hardware interrupt\n\0");
     sendPICEOI(irq);
-    uint8_t scanPcode = port_byte_in(0x60);
+    uint8_t scanPcode = portByteIn(0x60);
     __asm__ ("sti");
 }
 
@@ -87,20 +87,21 @@ void irq15() { handleHardwareInterrupts(15); }
 
 void initializeHardwareInterrupts()
 {
-    install_ir(0x20, (IRG_HANDLER) irq0 ); // 0x20 == 32
-    install_ir(0x21, (IRG_HANDLER) irq1 );
-    install_ir(0x22, (IRG_HANDLER) irq2 );
-    install_ir(0x23, (IRG_HANDLER) irq3 );
-    install_ir(0x24, (IRG_HANDLER) irq4 );
-    install_ir(0x25, (IRG_HANDLER) irq5 );
-    install_ir(0x26, (IRG_HANDLER) irq6 );
-    install_ir(0x27, (IRG_HANDLER) irq7 );
-    install_ir(0x28, (IRG_HANDLER) irq8 );
-    install_ir(0x29, (IRG_HANDLER) irq9 );
-    install_ir(0x30, (IRG_HANDLER) irq10 );
-    install_ir(0x31, (IRG_HANDLER) irq11 );
-    install_ir(0x32, (IRG_HANDLER) irq12 );
-    install_ir(0x33, (IRG_HANDLER) irq13 );
-    install_ir(0x34, (IRG_HANDLER) irq14 );
-    install_ir(0x35, (IRG_HANDLER) irq15 );
+    installISR(0x20, (IRG_HANDLER) irq0 ); // 0x20 == 32
+    installISR(0x21, (IRG_HANDLER) irq1 );
+    installISR(0x22, (IRG_HANDLER) irq2 );
+    installISR(0x23, (IRG_HANDLER) irq3 );
+    installISR(0x24, (IRG_HANDLER) irq4 );
+    installISR(0x25, (IRG_HANDLER) irq5 );
+    installISR(0x26, (IRG_HANDLER) irq6 );
+    installISR(0x27, (IRG_HANDLER) irq7 );
+    installISR(0x28, (IRG_HANDLER) irq8 );
+    installISR(0x29, (IRG_HANDLER) irq9 );
+    installISR(0x30, (IRG_HANDLER) irq10 );
+    installISR(0x31, (IRG_HANDLER) irq11 );
+    installISR(0x32, (IRG_HANDLER) irq12 );
+    installISR(0x33, (IRG_HANDLER) irq13 );
+    installISR(0x34, (IRG_HANDLER) irq14 );
+    installISR(0x35, (IRG_HANDLER) irq15 );
 }
+

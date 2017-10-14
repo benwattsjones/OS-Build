@@ -17,7 +17,7 @@
  * We will setup all interrupts to have the same default handler.
  */
 
-static struct idt_descriptor _idt[X86_MAX_INTERRUPTS];
+static struct IDTDescriptor _idt[X86_MAX_INTERRUPTS];
 
 struct idtr
 {
@@ -30,7 +30,7 @@ struct idtr
 // static struct used to help define the cpu's idtr register
 static struct idtr _idtr;
 
-static void idt_install() 
+static void installIDT() 
 {
     __asm__ __volatile__ ("lidt (_idtr)");
 }
@@ -41,7 +41,7 @@ void idt_default_handler()
     __asm__ ("sti");
 }
 
-void install_ir(uint32_t ir_code, IRG_HANDLER irq)
+void installISR(uint32_t ir_code, IRG_HANDLER irq)
 {
     if (ir_code > X86_MAX_INTERRUPTS - 1)
         return;
@@ -57,13 +57,13 @@ void install_ir(uint32_t ir_code, IRG_HANDLER irq)
     _idt[ir_code].codeSelector = 0x08;
 }
 
-void idt_initialize()
+void initializeIDT()
 {
-    _idtr.limit = sizeof(struct idt_descriptor) * X86_MAX_INTERRUPTS - 1;
+    _idtr.limit = sizeof(struct IDTDescriptor) * X86_MAX_INTERRUPTS - 1;
     _idtr.base = (uint32_t)&_idt[0];
     // register default handlers
     int i;
     for (i = 0; i < X86_MAX_INTERRUPTS; i++)
-        install_ir(i, (IRG_HANDLER) idt_default_handler);
-    idt_install();
+        installISR(i, (IRG_HANDLER) idt_default_handler);
+    installIDT();
 }
