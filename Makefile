@@ -21,8 +21,8 @@ all: bootloader.bin kernel.bin
 bootloader.bin:
 	$(AS) os/boot/bootloader.asm -f bin -o bootloader.bin
 
-kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o cpu.o
-	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o cpu.o
+kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o cpu.o keyboard.o
+	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o cpu.o keyboard.o
 	chmod -x kernel.bin
 
 kernel_entry.o:
@@ -51,6 +51,9 @@ interrupts.o:
 
 cpu.o:
 	$(CC) $(CFLAGS) -c os/cpu/cpu.c -o $@
+
+keyboard.o:
+	$(CC) $(CFLAGS) -c os/drivers/keyboard.c -o $@
 
 .PHONY: clean
 clean:

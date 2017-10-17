@@ -5,6 +5,7 @@
 #include "idt.h"
 #include "pic.h"
 #include "ioports.h"
+#include "../drivers/keyboard.h"
 
 /* This file sets up hardware interrupt handlers using the functions from 
  * 'idt.c'. These are set to interrupts 32-48, as previous interrupts either
@@ -41,9 +42,9 @@
 void handleHardwareInterrupts_keyboard(uint8_t irq)
 {
     __asm__ ("cli");
-    print("Error: unhandled KEYBOARD hardware interrupt\n\0");
+    uint8_t scan_code = portByteIn(0x60);
+    printKeyInput(scan_code);
     sendPICEOI(irq);
-    uint8_t scanPcode = portByteIn(0x60);
     __asm__ ("sti");
 }
 

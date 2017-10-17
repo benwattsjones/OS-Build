@@ -4,7 +4,8 @@ A simple operating system featuring... Heavily commented and hoped to be
 helpfull to others attempting to build an OS...
 Dependencies:
 -------------
-[gcc, nasm, qemu, cross-compiler?]
+[gcc, nasm, qemu, cross-compiler?, to create 32-bit asm from gcc on arch need
+lib32-gcc-libs and to enable multilib]
 
 Building and running:
 ---------------------
@@ -51,7 +52,7 @@ https://github.com/cfenollosa/os-tutorial
 
 License:
 --------
-This software is licensed under the GNU GPLv3 license (see 'license.txt'). 
+This software is licensed under the GNU GPLv3 license (see 'LICENSE'). 
 It is hoped The source code will be usefull to others attempting to build their 
 own simple operating systems.
 
