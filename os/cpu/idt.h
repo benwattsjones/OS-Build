@@ -1,5 +1,5 @@
-#ifndef DRIVERS_IDT_H
-#define DRIVERS_IDT_H
+#ifndef CPU_IDT_H
+#define CPU_IDT_H
 
 #include <stdint.h>
 

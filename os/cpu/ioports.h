@@ -1,8 +1,8 @@
 // This file is a header file for functions written in assembly.
 // Must be seperately converted to object files and linked together.
 
-#ifndef IO_PORTS_H
-#define IO_PORTS_H
+#ifndef CPU_IO_PORTS_H
+#define CPU_IO_PORTS_H
 
 #include <stdint.h>
 

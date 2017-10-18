@@ -1,5 +1,5 @@
-#ifndef DRIVERS_PIT_H
-#define DRIVERS_PIT_H
+#ifndef CPU_PIT_H
+#define CPU_PIT_H
 
 void timer_init();
 

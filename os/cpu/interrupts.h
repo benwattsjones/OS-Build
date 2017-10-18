@@ -1,5 +1,5 @@
-#ifndef DRIVERS_INTERRUPTS_H
-#define DRIVERS_INTERRUPTS_H
+#ifndef CPU_INTERRUPTS_H
+#define CPU_INTERRUPTS_H
 
 void initializeHardwareInterrupts();
 
