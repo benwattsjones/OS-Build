@@ -1,5 +1,5 @@
-CC = gcc
-CFLAGS = -m32 -ffreestanding -fno-pic 
+CC = $(HOME)/Src/os-cross-compiler/bin/i686-elf-gcc
+CFLAGS = -ffreestanding  
 AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -m elf_i386 -Ttext 0x1000 --oformat binary
