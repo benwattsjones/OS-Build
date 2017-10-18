@@ -1,11 +1,10 @@
 
 OUTPUT_FORMAT("binary")
 
-/*STARTUP(kernel_entry.o)*/
+STARTUP(kernel_entry.o)
 
-/*INPUT 
+INPUT 
 (
-    kernel_entry.o
     kernel.o
     screen.o
     ioports.o
@@ -15,9 +14,9 @@ OUTPUT_FORMAT("binary")
     interrupts.o
     cpu.o
     keyboard.o
-)*/
+)
 
-/*OUTPUT("kernel.bin")*/
+OUTPUT("kernel.bin")
 
 SECTIONS
 {
