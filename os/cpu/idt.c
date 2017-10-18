@@ -1,7 +1,7 @@
 #include <stdint.h>
 
-#include "../drivers/screen.h" 
 #include "idt.h"
+#include "../drivers/screen.h" 
 
 /* There are hardware and software interrupts. This file initialises software
  * interrupts (e.g. INT $0x80). When an interrupt is fired, its interrupt 

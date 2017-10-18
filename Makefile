@@ -2,7 +2,7 @@ CC = $(HOME)/Src/os-cross-compiler/bin/i686-elf-gcc
 CFLAGS = -ffreestanding  
 AS = nasm
 ASFLAGS = -f elf
-LDFLAGS = -m elf_i386 -Ttext 0x1000 --oformat binary
+LDFLAGS = -nostdlib -ffreestanding -lgcc
 
 all: bootloader.bin kernel.bin 
 	cat bootloader.bin kernel.bin > OS.bin
@@ -22,7 +22,7 @@ bootloader.bin:
 	$(AS) os/boot/bootloader.asm -f bin -o bootloader.bin
 
 kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o cpu.o keyboard.o
-	ld -o kernel.bin $(LDFLAGS) kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o cpu.o keyboard.o
+	$(CC) -T link.ld kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o cpu.o keyboard.o -o kernel.bin $(LDFLAGS)
 	chmod -x kernel.bin
 
 kernel_entry.o:

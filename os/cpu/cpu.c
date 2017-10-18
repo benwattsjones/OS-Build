@@ -1,3 +1,4 @@
+#include "cpu.h"
 #include "idt.h"
 #include "pic.h"
 #include "pit.h"
