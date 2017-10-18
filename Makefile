@@ -1,5 +1,5 @@
 CC = $(HOME)/Src/os-cross-compiler/bin/i686-elf-gcc
-CFLAGS = -ffreestanding  
+CFLAGS = -ffreestanding -Wall -std=c99
 AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -nostdlib -ffreestanding -lgcc
