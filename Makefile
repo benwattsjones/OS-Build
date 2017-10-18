@@ -4,6 +4,14 @@ AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -nostdlib -ffreestanding -lgcc
 
+C_SOURCES = $(wildcard os/cpu/*.c os/drivers/*.c os/kernel/*.c)
+ASM_SOURCES = $(wildcard os/cpu/*.asm os/drivers/*.asm os/kernel/*.asm)
+HEADERS = $(wildcard os/cpu/*.h os/drivers/*.h os/kernel/*.h)
+
+C_OBJ_FILES = ${C_SOURCES:.c=.o}
+ASM_OBJ_FILES = ${ASM_SOURCES:.asm=.o}
+OBJ_FILES := $(ASM_OBJ_FILES) $(C_OBJ_FILES)
+
 all: bootloader.bin kernel.bin 
 	cat bootloader.bin kernel.bin > OS.bin
 	# 2880 pages long for El-Torito ISO 9660 floppy disk ISO
@@ -13,17 +21,23 @@ all: bootloader.bin kernel.bin
 	mv OS.img iso/
 	mkisofs -quiet -V 'MyOS' -input-charset iso8859-1 -o OS.iso -b OS.img -hide OS.img iso/
 	mv .bin bin
-	mv *.bin bin
-	mv *.o bin
+	mv *.bin *.o bin
 	mv .run run
 	chmod +x run
 
 bootloader.bin:
 	$(AS) os/boot/bootloader.asm -f bin -o bootloader.bin
 
-kernel.bin: kernel_entry.o kernel.o screen.o ioports.o idt.o pic.o pit.o interrupts.o cpu.o keyboard.o
+# notdir gives file names only so can be recogniesed by link.ld
+kernel.bin: $(notdir ${OBJ_FILES}) 
 	$(CC) -T link.ld $(LDFLAGS)
 	chmod -x kernel.bin
+
+#%.o: %.c
+#	$(CC) $(CFLAGS) -c $*.c -o $@
+
+#%.o: %.asm
+#	$(AS) $< $(ASFLAGS) -o $@
 
 kernel_entry.o:
 	$(AS) os/kernel/kernel_entry.asm $(ASFLAGS) -o $@
