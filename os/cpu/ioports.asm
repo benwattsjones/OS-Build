@@ -1,5 +1,9 @@
 [bits 32]
 
+; These functions are used with devices with 'memory mapped IO', for example
+; the screen in text mode. This is where values of external devices registers
+; are mapped by hardware to specific addresses on the IO address bus.
+
 global portByteIn
 
 portByteIn:

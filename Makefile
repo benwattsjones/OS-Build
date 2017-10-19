@@ -33,12 +33,6 @@ kernel.bin: $(notdir ${OBJ_FILES})
 	$(CC) -T link.ld $(LDFLAGS)
 	chmod -x kernel.bin
 
-#%.o: %.c
-#	$(CC) $(CFLAGS) -c $*.c -o $@
-
-#%.o: %.asm
-#	$(AS) $< $(ASFLAGS) -o $@
-
 kernel_entry.o:
 	$(AS) os/kernel/kernel_entry.asm $(ASFLAGS) -o $@
 

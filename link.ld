@@ -1,6 +1,7 @@
 
 OUTPUT_FORMAT("binary")
 
+/* Note: Do not include STARTUP object file in INPUT as well */
 STARTUP(kernel_entry.o)
 
 INPUT 
@@ -18,6 +19,8 @@ INPUT
 
 OUTPUT("kernel.bin")
 
+/* Offset address of kernel binary is 0x1000 as this is where the bootloader
+ * loads the pages */
 SECTIONS
 {
     . = 0x1000;

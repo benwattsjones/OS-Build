@@ -1,6 +1,15 @@
 #include <stdint.h>
 
 #include "screen.h"
+
+/* The 'printKeyInput' function in this file is called by interrupts.c upon 
+ * an IRQ1 interrupt request. The interrpt handler recieves a scan code from
+ * the keyboard encoder microcontroller. This file decodes the scan code to
+ * the corresponding ASCII code and prints the result. Whilst there are
+ * different scan code sets, this driver assumes the keyboard uses the common
+ * XT scan code set.
+ */
+
 static char *scan_codes2[0x40] = {"?\0", "?\0", "1\0", "2\0", "3\0", "4\0", "5\0", "6\0",
                      "7\0", "8\0", "9\0", "0\0", "-\0", "=\0", "?\0", "?\0",
                      "q\0", "w\0", "e\0", "r\0", "t\0", "y\0", "u\0", "i\0",

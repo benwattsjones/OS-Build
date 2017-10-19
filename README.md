@@ -1,32 +1,17 @@
 Operating System
 ================
-A simple operating system featuring... Heavily commented and hoped to be 
-helpfull to others attempting to build an OS...
+A simple operating system intended mainly for educational purposes. The code is
+very heavily commented in an attempt to make it easier to understand and 
+navigate for others attempting similar projects.
 
-Dependencies:
--------------
-[gcc, nasm, qemu, cross-compiler?, to create 32-bit asm from gcc on arch need
-lib32-gcc-libs and to enable multilib]
+Currently, is compiled, the user interface consists of a welcome message, 
+an area to type in, and a series of dots appearing once per second in the form
+of the system timer.
 
-See instructions below on how to create the cross compiler.
+Please see the 'Progression Goals' section below for a list of features 
+implemented thus far.
 
-Building and running:
----------------------
-Create the .iso file with command:
-`$ make`
-This will make bin directory with binary files, .iso file containing OS, and
-run file for running OS in qemu emulator
-Run the operating system in the qemu emulator with command:
-`$ ./run`
-Remove the binary files (placed in bin directory) and .iso file with command:
-`$ make clean`
-If the make fails, you can clean up the files created with the command:
-`$ make fail`
-
-__Either 'make fail' or 'make clean' (as appropriate) must be called before 'make'
-is called again.__
-
-Progression goals:
+Progression Goals:
 ------------------
  - Standalone bootloader allows OS to boot from ISO CD-ROM. _[DONE]_
  - Kernel runs in 32bit protected mode with C. _[DONE]_
@@ -43,13 +28,39 @@ Progression goals:
  - Process management with multithreading.
  - Basic graphics (mainly textual, but in sections).
 
-Usefull resources:
+Dependencies:
+-------------
+In order to compile the operating system, the cross compiler must be built.
+Instructions for this are listed under the 'Installing the Cross Compiler' 
+title below. You must be using GCC on linux. The NASM assembler is also 
+required.
+
+QEMU is required to run the OS in a virtual machiene using the './run' script
+created upon compilation. However the 'OS.iso' file also created may be ran 
+in other emulators, or indeed on actual hardware if burned to a CD.
+Whilst I regularly test the OS on bare metal, I do not reccomend this and you
+choose to do so entirely at your own risk.
+
+Building and Running:
+---------------------
+Create the .iso file with command:
+`$ make`
+This will make bin directory with binary files, .iso file containing OS, and
+run file for running OS in qemu emulator
+Run the operating system in the qemu emulator with command:
+`$ ./run`
+Remove the binary files (placed in bin directory) and .iso file with command:
+`$ make clean`
+If the make fails, you can clean up the files created with the command:
+`$ make fail`
+
+__Either 'make fail' or 'make clean' (as appropriate) must be called before 'make'
+is called again.__
+
+Usefull Resources:
 ------------------
 - https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf
-- https://www.cs.bham.ac.uk/~exr/lectures/opsys/15_16/lectures.php
 - http://wiki.osdev.org/Tutorials
-- https://littleosbook.github.io/
-- https://github.com/iankronquist/kernel-of-truth
 - https://software.intel.com/sites/default/files/managed/a4/60/325384-sdm-vol-3abcd.pdf
 - http://www.brokenthorn.com/Resources/
 - https://github.com/cfenollosa/os-tutorial
@@ -70,7 +81,7 @@ any major extensions to this work.
 Installing the cross compiler
 =============================
 
-Before you begin:
+Before you Begin:
 -----------------
 The cross compiler and it's source code will be created in the directory
 `$HOME/Src/os-cross-compiler`. This directory will be prepended to $PATH to
@@ -89,10 +100,10 @@ a linux environment.
  - wget
  - tar
 
-Much of the information on this page was gained from the 'GCC\_Cross-Compiler'
-page on wiki.osdev.org.
+Much credit for these instructions must go to http://wiki.osdev.org/GCC_Cross-Compiler,
+which I have modified here.
 
-Downloading the prerequisits:
+Downloading the Prerequisits:
 -----------------------------
 Binutils provides the assembler, disassembler, linker and other programs.
 At the time of writing, the latest version of Binutils is 2.29.1. This is the
@@ -174,3 +185,4 @@ The cross compiler can now be accessed using:
 
 Alternatively, the binaries could be added to PATH.
 
+This is covered by the Makefile.
