@@ -6,10 +6,11 @@
 int main() 
 {
     clearScreen();
+    //setCursor(160); // make cursor start on second line where typing starts
     initializeInterrupts();
 
     char *pstr = "Welcome to the OS!\n\0";
-    printAt(pstr, -1, -1, RED_ORANGE_FOREGROUND);
+    printHeader(pstr, 0, RED_ORANGE_FOREGROUND);
 
     for (;;)
         __asm__ ("hlt");

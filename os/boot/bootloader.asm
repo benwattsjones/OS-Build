@@ -61,7 +61,7 @@ task3_read_sectors_from_disk:
     ; 1st arg is number of sectors to load (located immediately after boot
     ; sector code). NOTE: qemu fails if more requested than present in .iso
     ; Note: set by fallocate in Makefile
-    push word 9
+    push word 20
     call read_sectors_16bit
     add sp, 4
     cmp ax, 0

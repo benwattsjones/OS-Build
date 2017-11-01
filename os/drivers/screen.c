@@ -1,7 +1,8 @@
 #include "screen.h"
 #include "../cpu/ioports.h"
 
-#define VIDEO_ADDRESS 0xb8000
+#define HEADER_ADDRESS 0xb8000
+#define VIDEO_ADDRESS 0xb8000 // 0xb8000 + 80*2 
 #define MAX_ROWS 24 // only use 24 of 25 rows as cursor cannot be seen on 25th
 #define MAX_COLS 80
 #define DEF_STYLE 0x07
@@ -117,7 +118,7 @@ void memory_copy(char *source, char *dest, int no_bytes)
 
 void setCursor(int offset)
 {
-    offset /= 2;
+    offset = offset / 2; 
     portByteOut(REG_SCREEN_CTRL, CURSOR_LOCATION_HIGH_OFFSET);
     portByteOut(REG_SCREEN_DATA, (unsigned char) (offset >> 8));
     portByteOut(REG_SCREEN_CTRL, CURSOR_LOCATION_LOW_OFFSET);
@@ -171,7 +172,7 @@ int handle_scrolling(int cursor_offset)
     }
     int i;
     // Move each lines memory back a line - Note first line now lost forever
-    for (i = 1; i < MAX_ROWS; i++) {
+    for (i = 2; i < MAX_ROWS; i++) {
         memory_copy((char *) (get_screen_offset(0, i) + VIDEO_ADDRESS),
                     (char *) (get_screen_offset(0, i-1) + VIDEO_ADDRESS),
                     MAX_COLS * 2);
@@ -210,7 +211,21 @@ void clearScreen()
             print_char(' ', col, row, 0);
         }
     }
-    setCursor(get_screen_offset(0, 0));
+    setCursor(get_screen_offset(0, 1));
 }
 
+void printHeader(char *message, int col, char attribute_byte)
+{
+    if (!attribute_byte)
+        attribute_byte = DEF_STYLE;
+    volatile unsigned char *header_mem = (volatile unsigned char *) VIDEO_ADDRESS;
+    int i = 0;
+    col = col * 2;
+    while (message[i] != '\0' && message[i] != '\n') {
+        header_mem[col] = message[i];
+        header_mem[col + 1] = attribute_byte;
+        i++;
+        col = col + 2;
+    }
+}
 

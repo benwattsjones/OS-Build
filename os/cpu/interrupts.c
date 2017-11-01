@@ -6,6 +6,7 @@
 #include "pic.h"
 #include "ioports.h"
 #include "../drivers/keyboard.h"
+#include "../drivers/timer.h"
 
 /* This file sets up hardware interrupt handlers using the functions from 
  * 'idt.c'. These are set to interrupts 32-48, as previous interrupts either
@@ -56,15 +57,10 @@ void handleHardwareInterrupts(uint8_t irq)
     __asm__ ("sti");
 }
 
-static uint8_t c = 0;
 void handleHardwareInterrupts_timer(uint8_t irq)
 {
     __asm__ ("cli");
-    c++;
-    if (c >= 20) {
-        print(".\0");
-        c = 0;
-    }
+    printTimeElapsed();
     sendPICEOI(irq);
     __asm__ ("sti");
 }

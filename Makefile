@@ -63,6 +63,9 @@ cpu.o:
 keyboard.o:
 	$(CC) $(CFLAGS) -c os/drivers/keyboard.c -o $@
 
+timer.o:
+	$(CC) $(CFLAGS) -c os/drivers/timer.c -o $@
+
 .PHONY: clean
 clean:
 	rm *.iso

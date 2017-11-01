@@ -15,6 +15,7 @@ INPUT
     interrupts.o
     cpu.o
     keyboard.o
+    timer.o
 )
 
 OUTPUT("kernel.bin")

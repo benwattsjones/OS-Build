@@ -39,4 +39,7 @@ void print(char *message);
 // be called upon kernel loading to set up for printing
 void clearScreen();
 
+// Prints to first line. Terminates if null character or newline character.
+void printHeader(char *message, int col, char attribute_byte);
+
 #endif
