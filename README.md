@@ -4,9 +4,8 @@ A simple operating system intended mainly for educational purposes. The code is
 very heavily commented in an attempt to make it easier to understand and 
 navigate for others attempting similar projects.
 
-Currently, is compiled, the user interface consists of a welcome message, 
-an area to type in, and a series of dots appearing once per second in the form
-of the system timer.
+Currently, The user interface is in text mode, with a header line displaying
+a welcome message and the system time elapsed, with an area below to type in.
 
 Please see the 'Progression Goals' section below for a list of features 
 implemented thus far.
