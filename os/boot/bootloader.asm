@@ -56,12 +56,12 @@ task2_print_loaded_16bit_message:
 ; However, the OS will be larger than 512-bytes so here we load subsequent
 ; sectors into RAM as well, to a location we specify.
 task3_read_sectors_from_disk:
-    ; 2nd arg is address to load sectors into. Note: Ttext in ld kernel
+    ; 2nd arg is address to load sectors into. Note: .= in link.ld
     push word 0x1000
     ; 1st arg is number of sectors to load (located immediately after boot
     ; sector code). NOTE: qemu fails if more requested than present in .iso
     ; Note: set by fallocate in Makefile
-    push word 20
+    push word 54
     call read_sectors_16bit
     add sp, 4
     cmp ax, 0

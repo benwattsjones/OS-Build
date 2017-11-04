@@ -15,7 +15,7 @@ read_sectors_16bit:
     ; We will later call BIOS interrupt 0x13 to read sectors from disc. It
     ; expects to find the drive number to be found in dl
     mov dl, [BOOT_DRIVE]
-    ; Load sectors to address 0x9000
+    ; Load sectors to address 
     mov bx, [bp + 6]
     ; Load [param1] sectors
     mov dh, [bp + 4]

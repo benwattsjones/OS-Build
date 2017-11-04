@@ -1,0 +1,24 @@
+ENTRIES_PER_TABLE equ 1024
+NUMBER_PAGE_TABLES equ 250
+
+section .data
+; Ensures the entries are 32-bits apart
+align 0x20
+PageDirectoryTable:
+    ; Sets up blank page directory table with following flags:
+    ; Supervisor - can only be accessed by kernel-mode
+    ; Write enabled - can read and write to
+    ; Not present - no page table (thus address bits are irrelevant)
+    times ENTRIES_PER_TABLE dd 0x00000002
+
+align 0x20
+PageTables:
+    ; Sets up blank page tables with flags as PDT above
+    ; 250 page tables maps 1GB memory. Note only 250 for convenience -
+    ; if more than wouldn't fit in 2880*512-byte pages.
+    times (ENTRIES_PER_TABLE * NUMBER_PAGE_TABLES) dd 0x00000002
+
+section .text
+global fillPageTables
+fillPageTables:
+    
