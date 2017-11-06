@@ -20,7 +20,7 @@ Progression Goals:
  - Keyboard driver. _[DONE]_
  - Cross-compiler. _[DONE]_
  - Physical memory manager.
- - Virtual memory manager with paging.
+ - Virtual memory manager with paging. _[DONE]_
  - Hierarchical file system with basic text editor.
  - Heap and stack allocator with program loader.
  - User land.
