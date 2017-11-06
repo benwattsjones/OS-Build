@@ -28,7 +28,7 @@ _start:
     jmp ecx
 
 switchToHigherHalf:
-;    unmapIdentityMapping 
+    unmapIdentityMapping 
 
     mov ebp, stack + STACKSIZE
     mov esp, ebp

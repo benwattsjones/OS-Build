@@ -4,6 +4,10 @@
 #include "pit.h"
 #include "interrupts.h"
 
+/* This file collects together the initialization funcions of this file
+ * to create a single point of entry for the kernel to call.
+ */
+
 void initializeInterrupts()
 {
     initializeIDT();

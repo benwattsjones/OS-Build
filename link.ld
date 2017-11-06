@@ -19,6 +19,7 @@ INPUT
     keyboard.o
     timer.o
     paging.o
+    gdt.o
 )
 
 OUTPUT("kernel.bin")

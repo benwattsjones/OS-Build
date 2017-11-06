@@ -69,6 +69,9 @@ timer.o:
 paging.o:
 	$(AS) os/kernel/paging.asm $(ASFLAGS) -o $@
 
+gdt.o:
+	$(CC) $(CFLAGS) -c os/cpu/gdt.c -o $@
+
 .PHONY: clean
 clean:
 	rm *.iso
