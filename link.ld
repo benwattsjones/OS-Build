@@ -1,6 +1,8 @@
 
 OUTPUT_FORMAT("binary")
 
+ENTRY(start)
+
 /* Note: Do not include STARTUP object file in INPUT as well */
 STARTUP(kernel_entry.o)
 
@@ -16,6 +18,7 @@ INPUT
     cpu.o
     keyboard.o
     timer.o
+    paging.o
 )
 
 OUTPUT("kernel.bin")
@@ -24,8 +27,22 @@ OUTPUT("kernel.bin")
  * loads the pages */
 SECTIONS
 {
-    . = 0x1000;
-    .text : { *(.text) }
-    .data : { *(.data) }
+    . = 0x30001000;
+    
+    .text : AT(ADDR(.text) - 0x30000000) { 
+        *(.text)
+        *(.rodata*)
+    }
+
+    .data : AT(ADDR(.data) - 0x30000000) { 
+        *(.data) 
+    }
+
+    .bss : AT(ADDR(.bss) - 0x30000000) {
+        _sbss = .;
+        *(COMMON)
+        *(.bss)
+        _ebss = .;
+    }
 }
 

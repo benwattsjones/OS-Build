@@ -27,28 +27,22 @@ KERNEL_PAGE_DIRECTORY_INDEX equ 192 ; kernel virtual address space 0.75-1.00 GiB
 ; BYTES_PER_TABLE.
 ; Note: need to ensure code is position independent and uses physical addresses.
 global createPageDirectoryTable
-createPageDirectoryTable:
-    push ebp
-    mov ebp, esp
+%macro createPageDirectoryTable 0 
     mov eax, TABLES_START_ADDRESS + BYTES_PER_TABLE ; address of page table
     xor ecx, ecx ; counter for page directory entry iteration
     and eax, 0xfffff000 ; only want bits 12-31 (not strictly neccessary)
     or eax, 2 ; flags: supervisor, write enabled, page table NOT present
-.fillPageDirectoryTable_startLoop
+.fillPageDirectoryTable_startLoop:
     mov [TABLES_START_ADDRESS + ecx*4], eax
     inc ecx
-    cmp ecx, ENTRES_PER_TABLE - 1
+    cmp ecx, ENTRIES_PER_TABLE - 1
     je .fillPageDirectoryTable_endLoop
     jmp .fillPageDirectoryTable_startLoop
 .fillPageDirectoryTable_endLoop:
-    mov esp, ebp
-    pop ebp
-    ret
+%endmacro
 
 global createPageTables:
-createPageTables:
-    push ebp
-    mov ebp, esp
+%macro createPageTables 0
     mov eax, STARTING_PYSICAL_ADDRESS_TO_MAP ; Page table entry frame address
     xor ecx, ecx ; Counter for page table entry iteration
 .fillPageTable_startLoop:
@@ -62,49 +56,35 @@ createPageTables:
     je .fillPageTable_endLoop
     jmp .fillPageTable_startLoop
 .fillPageTable_endLoop:
-    mov esp, ebp
-    pop ebp
-    ret
+%endmacro
 
-; Need to set bit 0 (page table present) for page directory entry 0 and 192
+;  Need to set bit 0 (page table present) for page directory entry 0 and 192
 ; Have to map entry 0 (identity mapping), otherwise OS will crash as soon as
 ; paging is enabled as it will not be able to fetch the next instruction.
 ; The identity mapping will be unmapped after the switch to virtual addresses.
 global activatePagingTables
-activatePagingTables:
-    push ebp
-    mov ebp, esp
+%macro activatePagingTables 0
     mov eax, [TABLES_START_ADDRESS]
     or eax, 1
     mov [TABLES_START_ADDRESS], eax
     mov eax, [TABLES_START_ADDRESS + KERNEL_PAGE_DIRECTORY_INDEX*4]
     or eax, 1
     mov [TABLES_START_ADDRESS + KERNEL_PAGE_DIRECTORY_INDEX*4], eax
-    mov esp, ebp
-    pop ebp
-    ret
+%endmacro
 
 global activatePaging
-activatePaging:
-    push ebp
-    mov ebp, esp
-    mov eax, TABLES_START_ADDRESS
+%macro activatePaging 0
+    mov eax, TABLES_START_ADDRESS 
     mov cr3, eax
     mov eax, cr0
     or eax, 0x80000000
     mov cr0, eax
-    mov esp, ebp
-    pop ebp
-    ret
+%endmacro
 
 global unmapIdentityMapping
-unmapIdentityMapping:
-    push ebp
-    mov ebp, esp
-    mov dw [TABLES_START_ADDRESS], 0x00000002
+%macro unmapIdentityMapping 0
+    mov dword [TABLES_START_ADDRESS], 0x00000002
     invlpg [0]
-    mov esp, ebp
-    pop ebp
-    ret
+%endmacro
 
 

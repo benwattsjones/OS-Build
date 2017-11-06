@@ -66,6 +66,9 @@ keyboard.o:
 timer.o:
 	$(CC) $(CFLAGS) -c os/drivers/timer.c -o $@
 
+paging.o:
+	$(AS) os/kernel/paging.asm $(ASFLAGS) -o $@
+
 .PHONY: clean
 clean:
 	rm *.iso

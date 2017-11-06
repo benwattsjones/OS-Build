@@ -1,7 +1,7 @@
 #include "screen.h"
 #include "../cpu/ioports.h"
 
-#define VIDEO_ADDRESS 0xb8000  
+#define VIDEO_ADDRESS 0x300b8000
 #define MAX_ROWS 24 // only use 24 of 25 rows as cursor cannot be seen on 25th
 #define MAX_COLS 80
 #define DEF_STYLE 0x07
