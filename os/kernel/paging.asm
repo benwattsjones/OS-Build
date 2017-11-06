@@ -26,7 +26,6 @@ KERNEL_PAGE_DIRECTORY_INDEX equ 192 ; kernel virtual address space 0.75-1.00 GiB
 ; pointing to tables packed from physical address TABLES_START_ADDRESS +
 ; BYTES_PER_TABLE.
 ; Note: need to ensure code is position independent and uses physical addresses.
-global createPageDirectoryTable
 %macro createPageDirectoryTable 0 
     mov eax, TABLES_START_ADDRESS + BYTES_PER_TABLE ; address of page table
     xor ecx, ecx ; counter for page directory entry iteration
@@ -41,7 +40,6 @@ global createPageDirectoryTable
 .fillPageDirectoryTable_endLoop:
 %endmacro
 
-global createPageTables:
 %macro createPageTables 0
     mov eax, STARTING_PYSICAL_ADDRESS_TO_MAP ; Page table entry frame address
     xor ecx, ecx ; Counter for page table entry iteration
@@ -62,7 +60,6 @@ global createPageTables:
 ; Have to map entry 0 (identity mapping), otherwise OS will crash as soon as
 ; paging is enabled as it will not be able to fetch the next instruction.
 ; The identity mapping will be unmapped after the switch to virtual addresses.
-global activatePagingTables
 %macro activatePagingTables 0
     mov eax, [TABLES_START_ADDRESS]
     or eax, 1
@@ -72,7 +69,6 @@ global activatePagingTables
     mov [TABLES_START_ADDRESS + KERNEL_PAGE_DIRECTORY_INDEX*4], eax
 %endmacro
 
-global activatePaging
 %macro activatePaging 0
     mov eax, TABLES_START_ADDRESS 
     mov cr3, eax
@@ -81,7 +77,6 @@ global activatePaging
     mov cr0, eax
 %endmacro
 
-global unmapIdentityMapping
 %macro unmapIdentityMapping 0
     mov dword [TABLES_START_ADDRESS], 0x00000002
     invlpg [0]

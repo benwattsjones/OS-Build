@@ -3,6 +3,13 @@
 
 #define DEF_STYLE 0
 
+/* This file prints the time elapsed at the first row of the screen to the
+ * nearest second and stores the time elapsed in a struct to the nearest
+ * 50ms. The function printTimeElapsed() is called with eack clock tick 
+ * by IRQ0 initialized in os/cpu/interrupts.c and configured by
+ * pic.c and pit.c.
+ */
+
 struct time_elapsed {
     uint16_t milisecs;
     uint8_t secs;
