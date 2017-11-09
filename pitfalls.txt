@@ -1,0 +1,25 @@
+This file is a list of basic issues and bugs come accross during the development
+of the OS. It is not comprehensive, but is hoped to help avoid such issues 
+agian.
+
+1. No hardware interupts will fire.
+        When initializing the GDT in the bootloader, "cli" was called. "sti"
+        thus must be called after interrupts are initialized.
+
+2. Only one hardware interrupt will fire.
+        The interrupt handlers need to begin __asm__("cli"); and end 
+        __asm__("sti");.
+
+3. Arrays do not work.
+        Using a cross compiler solved this issue.
+
+4. The OS triple faults as soon as paging is enabled (or identity mapping 
+   unmapped).
+        The GDT must be redefined after paging is enabled, as interrupts rely
+        on knowledge of segmentation from the GDT, but the GDTR address needs
+        to be updated from a physical to a virtual one.
+
+5. General wierd behaviour.
+        Not enough pages loaded by BIOS 'int 13' call.
+
+
