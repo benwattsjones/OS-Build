@@ -102,3 +102,74 @@ void initializeHardwareInterrupts()
     installISR(0x35, (IRG_HANDLER) irq15 );
 }
 
+/* SOFTWARE INTERRUPTS */
+
+void isr0() { __asm__("cli"); print("Exception 0\n\0"); __asm__("sti"); }
+void isr1() { __asm__("cli"); print("Exception 1\n\0"); __asm__("sti"); }
+void isr2() { __asm__("cli"); print("Exception 2\n\0"); __asm__("sti"); }
+void isr3() { __asm__("cli"); print("Exception 3\n\0"); __asm__("sti"); }
+void isr4() { __asm__("cli"); print("Exception 4\n\0"); __asm__("sti"); }
+void isr5() { __asm__("cli"); print("Exception 5\n\0"); __asm__("sti"); }
+void isr6() { __asm__("cli"); print("Exception 6\n\0"); __asm__("sti"); }
+void isr7() { __asm__("cli"); print("Exception 7\n\0"); __asm__("sti"); }
+void isr8() { __asm__("cli"); print("Exception 8\n\0"); __asm__("sti"); }
+void isr9() { __asm__("cli"); print("Exception 9\n\0"); __asm__("sti"); }
+void isr10() { __asm__("cli"); print("Exception 10\n\0"); __asm__("sti"); }
+void isr11() { __asm__("cli"); print("Exception 11\n\0"); __asm__("sti"); }
+void isr12() { __asm__("cli"); print("Exception 12\n\0"); __asm__("sti"); }
+void isr13() { __asm__("cli"); print("Exception 13\n\0"); __asm__("sti"); }
+void isr14() { __asm__("cli"); print("Exception 14\n\0"); __asm__("sti"); }
+void isr15() { __asm__("cli"); print("Exception 15\n\0"); __asm__("sti"); }
+void isr16() { __asm__("cli"); print("Exception 16\n\0"); __asm__("sti"); }
+void isr17() { __asm__("cli"); print("Exception 17\n\0"); __asm__("sti"); }
+void isr18() { __asm__("cli"); print("Exception 18\n\0"); __asm__("sti"); }
+void isr19() { __asm__("cli"); print("Exception 19\n\0"); __asm__("sti"); }
+void isr20() { __asm__("cli"); print("Exception 20\n\0"); __asm__("sti"); }
+void isr21() { __asm__("cli"); print("Exception 21\n\0"); __asm__("sti"); }
+void isr22() { __asm__("cli"); print("Exception 22\n\0"); __asm__("sti"); }
+void isr23() { __asm__("cli"); print("Exception 23\n\0"); __asm__("sti"); }
+void isr24() { __asm__("cli"); print("Exception 24\n\0"); __asm__("sti"); }
+void isr25() { __asm__("cli"); print("Exception 25\n\0"); __asm__("sti"); }
+void isr26() { __asm__("cli"); print("Exception 26\n\0"); __asm__("sti"); }
+void isr27() { __asm__("cli"); print("Exception 27\n\0"); __asm__("sti"); }
+void isr28() { __asm__("cli"); print("Exception 28\n\0"); __asm__("sti"); }
+void isr29() { __asm__("cli"); print("Exception 29\n\0"); __asm__("sti"); }
+void isr30() { __asm__("cli"); print("Exception 30\n\0"); __asm__("sti"); }
+void isr31() { __asm__("cli"); print("Exception 31\n\0"); __asm__("sti"); }
+
+void initializeSoftwareInterrupts()
+{
+    installISR(0, (IRG_HANDLER) isr0 );
+    installISR(1, (IRG_HANDLER) isr1 );
+    installISR(2, (IRG_HANDLER) isr2 );
+    installISR(3, (IRG_HANDLER) isr3 );
+    installISR(4, (IRG_HANDLER) isr4 );
+    installISR(5, (IRG_HANDLER) isr5 );
+    installISR(6, (IRG_HANDLER) isr6 );
+    installISR(7, (IRG_HANDLER) isr7 );
+    installISR(8, (IRG_HANDLER) isr8 );
+    installISR(9, (IRG_HANDLER) isr9 );
+    installISR(10, (IRG_HANDLER) isr10 );
+    installISR(11, (IRG_HANDLER) isr11 );
+    installISR(12, (IRG_HANDLER) isr12 );
+    installISR(13, (IRG_HANDLER) isr13 );
+    installISR(14, (IRG_HANDLER) isr14 );
+    installISR(15, (IRG_HANDLER) isr15 );
+    installISR(16, (IRG_HANDLER) isr16 );
+    installISR(17, (IRG_HANDLER) isr17 );
+    installISR(18, (IRG_HANDLER) isr18 );
+    installISR(19, (IRG_HANDLER) isr19 );
+    installISR(20, (IRG_HANDLER) isr20 );
+    installISR(21, (IRG_HANDLER) isr21 );
+    installISR(22, (IRG_HANDLER) isr22 );
+    installISR(23, (IRG_HANDLER) isr23 );
+    installISR(24, (IRG_HANDLER) isr24 );
+    installISR(25, (IRG_HANDLER) isr25 );
+    installISR(26, (IRG_HANDLER) isr26 );
+    installISR(27, (IRG_HANDLER) isr27 );
+    installISR(28, (IRG_HANDLER) isr28 );
+    installISR(29, (IRG_HANDLER) isr29 );
+    installISR(30, (IRG_HANDLER) isr30 );
+    installISR(31, (IRG_HANDLER) isr31 );
+}
+

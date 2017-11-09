@@ -14,5 +14,6 @@ void initializeInterrupts()
     initializePIC();
     timer_init();
     initializeHardwareInterrupts();
+    initializeSoftwareInterrupts();
     __asm__ __volatile__ ("sti");
 }

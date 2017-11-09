@@ -2,5 +2,6 @@
 #define CPU_INTERRUPTS_H
 
 void initializeHardwareInterrupts();
+void initializeSoftwareInterrupts();
 
 #endif
