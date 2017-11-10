@@ -1,24 +1,19 @@
 ; This function calls the kernel. It is compiled such that it is at the start
 ; of the binary, enabling the kernels 'main' function to be called even if
 ; it is not the first function in the file.
+; The code also initializes paging, using the macros in 'paging.asm', and
+; sets the new (virtual space) stack. This is done here (and not in
+; kernel.c) as it requires assembly code.
 [bits 32]
 
 %include "os/kernel/paging.asm"
 
 ; Linker will substitute for final address
 [extern main]
-;[extern initializeGDT]
-;extern createPageDirectoryTable
-;extern createPageTables
-;extern activatePagingTables
-;extern activatePaging
-;extern unmapIdentityMapping
-
-STACKSIZE equ 0x4000
 
 global start
 start equ (_start - 0x30000000)
-global _start
+;global _start
 
 _start:
     createPageDirectoryTable 
@@ -30,25 +25,10 @@ _start:
 
 switchToHigherHalf:
     unmapIdentityMapping 
-;    mov ebp, stack + STACKSIZE
-    mov ebp, 0x30300000
+    mov ebp, 0x30300000 ; set start of new stack
     mov esp, ebp
-
-;    call initializeGDT
-;    jmp 0x08:reloadSegments
-;reloadSegments:
-;    mov ax, 0x10
-;    mov ds, ax
-;    mov es, ax
-;    mov fs, ax
-;    mov gs, ax
-;    mov ss, ax
 
     call main
     jmp $
 
-section .bss
-align 32
-stack:
-    resb STACKSIZE
 

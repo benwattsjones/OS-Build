@@ -69,6 +69,9 @@ KERNEL_PAGE_DIRECTORY_INDEX equ 192 ; kernel virtual address space 0.75-1.00 GiB
     mov [TABLES_START_ADDRESS + KERNEL_PAGE_DIRECTORY_INDEX*4], eax
 %endmacro
 
+; To enable paging, must store the start address of the page directory table
+; in cr3 register, and set bit 31 of the cr0 register (this tells the cpu
+; paging is being used).
 %macro activatePaging 0
     mov eax, TABLES_START_ADDRESS 
     mov cr3, eax
@@ -77,6 +80,8 @@ KERNEL_PAGE_DIRECTORY_INDEX equ 192 ; kernel virtual address space 0.75-1.00 GiB
     mov cr0, eax
 %endmacro
 
+; Changes bitflags to page not present in first page table pointer in
+; page directory table, and invalidates cache to ensure changes recieved.
 %macro unmapIdentityMapping 0
     mov dword [TABLES_START_ADDRESS], 0x00000002
     invlpg [0]
