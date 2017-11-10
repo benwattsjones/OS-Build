@@ -22,4 +22,6 @@ agian.
 5. General wierd behaviour.
         Not enough pages loaded by BIOS 'int 13' call.
 
-
+6. The OS page faults after delay once paging is enabled.
+        The stack was set using uninitialized bss segment to region where
+        page was not present.

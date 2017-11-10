@@ -15,6 +15,7 @@ portByteIn:
     mov dx, [ebp + 8]
     xor eax, eax
     in al, dx
+    mov esp, ebp
     pop ebp
     ret
 
@@ -31,6 +32,7 @@ portByteOut:
     mov dx, [ebp + 8]
     mov al, [ebp + 12]
     out dx, al
+    mov esp, ebp
     pop ebp
     ret
 
