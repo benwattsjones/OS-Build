@@ -118,7 +118,15 @@ void isr10() { __asm__("cli"); print("Exception 10\n\0"); __asm__("sti"); }
 void isr11() { __asm__("cli"); print("Exception 11\n\0"); __asm__("sti"); }
 void isr12() { __asm__("cli"); print("Exception 12\n\0"); __asm__("sti"); }
 void isr13() { __asm__("cli"); print("Exception 13\n\0"); __asm__("sti"); }
-void isr14() { __asm__("cli"); print("Exception 14\n\0"); __asm__("sti"); }
+void isr14(uint32_t err_code) 
+{ 
+    __asm__("cli"); 
+    char err_msg[] = {'E', 'x', 'c', 'e', 'p', 't', 'i', 'o', 'n', ' ', '1', '4', ':', '0', '\n', '\0'};
+    err_msg[13] += err_code;
+    char *err_msg2 = (char *) err_msg;
+    print(err_msg2); 
+    __asm__("sti"); 
+}
 void isr15() { __asm__("cli"); print("Exception 15\n\0"); __asm__("sti"); }
 void isr16() { __asm__("cli"); print("Exception 16\n\0"); __asm__("sti"); }
 void isr17() { __asm__("cli"); print("Exception 17\n\0"); __asm__("sti"); }

@@ -44,7 +44,7 @@ void setGDTDescriptor(uint32_t i, uint32_t base, uint32_t limit, uint8_t flags, 
     _gdt[i].base_address_low = base & 0xffff;
     _gdt[i].base_address_mid = (base >> 16) & 0xff;
     _gdt[i].base_address_high = (base >> 24) & 0xff;
-    _gdt[i].segment_limit = limit;
+    _gdt[i].segment_limit = limit & 0xffff;
     _gdt[i].bit_flags = flags;
     _gdt[i].granularity_flags = (limit >>16) & 0x0f;
     _gdt[i].granularity_flags |= granularity & 0xf0;

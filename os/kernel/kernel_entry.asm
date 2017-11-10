@@ -7,6 +7,7 @@
 
 ; Linker will substitute for final address
 [extern main]
+;[extern initializeGDT]
 ;extern createPageDirectoryTable
 ;extern createPageTables
 ;extern activatePagingTables
@@ -29,9 +30,19 @@ _start:
 
 switchToHigherHalf:
     unmapIdentityMapping 
-
-    mov ebp, stack + STACKSIZE
+;    mov ebp, stack + STACKSIZE
+    mov ebp, 0x30300000
     mov esp, ebp
+
+;    call initializeGDT
+;    jmp 0x08:reloadSegments
+;reloadSegments:
+;    mov ax, 0x10
+;    mov ds, ax
+;    mov es, ax
+;    mov fs, ax
+;    mov gs, ax
+;    mov ss, ax
 
     call main
     jmp $
