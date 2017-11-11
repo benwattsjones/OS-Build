@@ -17,17 +17,35 @@
  * We will setup all interrupts to have the same default handler.
  */
 
-static struct IDTDescriptor _idt[X86_MAX_INTERRUPTS];
+#define X86_MAX_INTERRUPTS 256
+#define X86_IDT_BIT_FLAGS 0x8e
+#define GDT_CODE_SELECTOR 0x08
 
-struct idtr
+struct IDTDescriptor 
 {
-    // size of interrupt descriptor table (idt)
-    uint16_t limit;
-    // base address of idt
-    uint32_t base;
+    // Low bits (0-15) of interrupt request (IRQ) routine address
+    uint16_t irq_addr_low;
+    // Following three parts are same for all interrupts
+    // Set to 0x08 by GDT
+    uint16_t code_selector;
+    // Must be zero
+    uint8_t reserved;
+    // Set to 10001110b (0x8e)
+    //           +++++- Shows it is a 32 bit descriptor of interrupt gate. 
+    //         ++------ Tells cpu to execute IR in ring 0 privalage.
+    //        +-------- Shows this segment is present
+    uint8_t bit_flags;
+    // High bits (16-32) ofinterrupt request (IRQ) routine address
+    uint16_t irq_addr_high;
 } __attribute__((packed));
 
-// static struct used to help define the cpu's idtr register
+static struct IDTDescriptor _idt[X86_MAX_INTERRUPTS];
+
+struct idtr {
+    uint16_t idt_size;
+    uint32_t idt_base_address;
+} __attribute__((packed));
+
 static struct idtr _idtr;
 
 static void installIDT() 
@@ -35,35 +53,30 @@ static void installIDT()
     __asm__ __volatile__ ("lidt (_idtr)");
 }
 
-void idt_default_handler()
+void handleInterruptDefault()
 {
     print("Error: Unhandled Exception\n\0");
     __asm__ ("sti");
 }
 
-void installISR(uint32_t ir_code, IRG_HANDLER irq)
+void installISR(uint32_t irq_number, IRG_HANDLER irq_routine)
 {
-    if (ir_code > X86_MAX_INTERRUPTS - 1)
+    if (irq_number > X86_MAX_INTERRUPTS - 1 || !(irq_routine))
         return;
-    if (!irq)
-        return;
-    // get base address of interrupt handler
-    uint32_t irq_handler_addr = (uint32_t)&(*irq);
-    // store base address into idt
-    _idt[ir_code].irqAddrLow = irq_handler_addr & 0xffff;
-    _idt[ir_code].irqAddrHigh = (irq_handler_addr >> 16) & 0xffff;
-    _idt[ir_code].reserved = 0;
-    _idt[ir_code].bitFlags = 0x8e;
-    _idt[ir_code].codeSelector = 0x08;
+    uint32_t irq_handler_addr = (uint32_t)&(*irq_routine);
+    _idt[irq_number].irq_addr_low = irq_handler_addr & 0xffff;
+    _idt[irq_number].irq_addr_high = (irq_handler_addr >> 16) & 0xffff;
+    _idt[irq_number].reserved = 0;
+    _idt[irq_number].bit_flags = X86_IDT_BIT_FLAGS;
+    _idt[irq_number].code_selector = GDT_CODE_SELECTOR;
 }
 
 void initializeIDT()
 {
-    _idtr.limit = sizeof(struct IDTDescriptor) * X86_MAX_INTERRUPTS - 1;
-    _idtr.base = (uint32_t)&_idt[0];
-    // register default handlers
-    int i;
-    for (i = 0; i < X86_MAX_INTERRUPTS; i++)
-        installISR(i, (IRG_HANDLER) idt_default_handler);
+    _idtr.idt_size = sizeof(struct IDTDescriptor) * X86_MAX_INTERRUPTS - 1;
+    _idtr.idt_base_address = (uint32_t)&_idt[0];
+    int interrupt_num;
+    for (interrupt_num = 0; interrupt_num < X86_MAX_INTERRUPTS; interrupt_num++)
+        installISR(interrupt_num, (IRG_HANDLER) handleInterruptDefault);
     installIDT();
 }

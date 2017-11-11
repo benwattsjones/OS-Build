@@ -2,10 +2,6 @@
 
 #include "ioports.h"
 
-#define PIT_CONTROL_WORD_REGISTER 0x43
-#define PIT_COUNTER_0_REGISTER 0x40
-#define PIT_FREQUENCY 1193180
-
 /* He we setup the PIT chip on the motherboard to send an interrupt for each
  * clock tick of the timer.
  * First we set the Control Word Register to 0x36 (00110110b). This sets the
@@ -28,6 +24,10 @@
  * We send the counter value to the counter register as defined in the 
  * control word register above.
  */
+
+#define PIT_CONTROL_WORD_REGISTER 0x43
+#define PIT_COUNTER_0_REGISTER 0x40
+#define PIT_FREQUENCY 1193180
 
 void timer_init()
 {
