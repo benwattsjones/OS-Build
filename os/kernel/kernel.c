@@ -1,4 +1,6 @@
-// This is the main kernel file. It is entered at main()
+/* This is the main kernel file. It is entered at main() and called by 
+ * kernel_entry.asm.
+ */
 
 #include "../drivers/screen.h"
 #include "../cpu/gdt.h"
@@ -7,7 +9,6 @@
 int main() 
 {
     clearScreen();
-    //setCursor(160); // make cursor start on second line where typing starts
     initializeGDT();
     initializeInterrupts();
 

@@ -13,7 +13,6 @@
 
 global start
 start equ (_start - 0x30000000)
-;global _start
 
 _start:
     createPageDirectoryTable 
