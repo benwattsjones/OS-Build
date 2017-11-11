@@ -58,3 +58,4 @@ void printTimeElapsed()
     convertTwoDigitAscii(TimeElapsed.secs, time_element);
     printHeader(time_element, 36, DEF_STYLE);
 }
+

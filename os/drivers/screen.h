@@ -1,6 +1,8 @@
 #ifndef DRIVERS_SCREEN_H
 #define DRIVERS_SCREEN_H
 
+#include <stdint.h>
+
 #define BLUE_FOREGROUND 0x01
 #define GREEN_FOREGROUND 0x02
 #define CYAN_FOREGROUND 0x03
@@ -21,25 +23,15 @@
 
 #define INTENSE_BACKGROUND 0x80
 
-// Returns offset (in bytes NOT chars)
-int getCursor();
-// Sets cursor to arguement of offset (in bytes NOT chars)
-void setCursor(int offset);
+// Note offset is bytes not chars
+int32_t getCursor();
+void setCursor(int32_t offset);
 
-// Prints string (MUST be null-terminated) at specified row and column
-// (in chars NOT bytes), with specified attribute byte. Setting col=-1
-// and/or row=-1 will by default print from the current location of the
-// cursor. Setting attribute_byte=0 will use the DEF_STYLE.
-void printAt(char *message, int col, int row, char attribute_byte);
-// prints message (MUST be null-terminated) from current cursor position
-// in default styling (DEF_STYLE)
+// Note strings must be null terminated. DEF_STYLE if attribute_byte is 0.
+void printAt(char *message, int32_t col, int32_t row, char attribute_byte);
 void print(char *message);
+void printHeader(char *message, int32_t col, char attribute_byte);
 
-// Clears contents of screen and sets cursor to start. This function should
-// be called upon kernel loading to set up for printing
 void clearScreen();
-
-// Prints to first line. Terminates if null character or newline character.
-void printHeader(char *message, int col, char attribute_byte);
 
 #endif

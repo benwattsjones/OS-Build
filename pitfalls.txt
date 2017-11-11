@@ -25,3 +25,7 @@ agian.
 6. The OS page faults after delay once paging is enabled.
         The stack was set using uninitialized bss segment to region where
         page was not present.
+
+7. No cursor on last line visible.
+        The cursor will not be visible if the line is filled with zeros. Thus 
+        when clearing the final line upon scroll-down, use spaces instead.
