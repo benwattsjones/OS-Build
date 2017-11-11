@@ -37,7 +37,8 @@ void installGDT()
     __asm__ __volatile__ ("lgdt (_gdtr)");
 }
 
-void setGDTDescriptor(uint32_t i, uint32_t base, uint32_t limit, uint8_t flags, uint8_t granularity)
+void setGDTDescriptor(uint32_t i, uint32_t base, uint32_t limit, uint8_t flags, 
+                      uint8_t granularity)
 {
     if (i > MAX_DESCRIPTORS)
         return;

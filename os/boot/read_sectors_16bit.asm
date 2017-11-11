@@ -4,7 +4,7 @@ read_sectors_16bit:
     push bp
     mov bp, sp
     ; This function accepts 2 param:
-    ;  [bp + 4] = Number of 512kb sectors to load from disk 
+    ;  [bp + 4] = Number of 512b sectors to load from disk 
     ;  [bp + 6] = Address to load sectors to 
     ; The function expects the boot drive number to be stored in global variable
     ; BOOT_DRIVE, and for sectors to be loaded being placed immediately after
