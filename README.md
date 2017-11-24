@@ -83,11 +83,11 @@ Installing the cross compiler
 Before you Begin:
 -----------------
 The cross compiler and it's source code will be created in the directory
-`$HOME/Src/os-cross-compiler`. This directory will be prepended to $PATH to
+`$HOME/Builds/os-cross-compiler`. This directory will be prepended to $PATH to
 allow the compiler to be called. It is assumed that you are already in this
 directory with:
 ```
-$ cd $HOME/Src 
+$ cd $HOME/Builds 
 $ mkdir os-cross-compiler 
 $ cd os-cross-compiler
 ```
@@ -99,7 +99,7 @@ a linux environment.
  - wget
  - tar
 
-Much credit for these instructions must go to http://wiki.osdev.org/GCC_Cross-Compiler,
+Much credit for these instructions must go to http://wiki.osdev.org/GCC\_Cross-Compiler,
 which I have modified here.
 
 Downloading the Prerequisits:
@@ -133,7 +133,7 @@ Preparation:
 ------------
 We will define a few variables as follows:
 ```
-$ export PREFIX="$HOME/Src/os-cross-compiler"
+$ export PREFIX="$HOME/Builds/os-cross-compiler"
 $ export TARGET=i686-elf
 $ export PATH="$PREFIX/bin:$PATH"
 ```
@@ -145,7 +145,7 @@ installing binutils to be accessable when installing gcc.
 Installing Binutils:
 --------------------
 ```
-$ cd $HOME/Src/os-cross-compiler
+$ cd $HOME/Builds/os-cross-compiler
 $ mkdir build-binutils
 $ cd build_binutils
 $ ../binutils-2.29.1/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
@@ -165,7 +165,7 @@ $PATH. This was set up earlier and can be checked using:
 `$ which -- $TARGET-as || echo $TARGET-as is not in the PATH`
 The following compilations take a while to complete.
 ```
-$ cd $HOME/Src/os-cross-compiler/
+$ cd $HOME/Builds/os-cross-compiler/
 $ mkdir build-gcc
 $ cd build-gcc
 $ ../gcc-7.2.0/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers
@@ -179,7 +179,7 @@ $ make install-target-libgcc
 Using the Cross-Compiler:
 -------------------------
 The cross compiler can now be accessed using:
-`$ $HOME/Src/os-cross-compiler/bin/i686-elf-gcc`
+`$ $HOME/Builds/os-cross-compiler/bin/i686-elf-gcc`
 -gcc can also be replaced with -as and -ld to access the assembler and linker.
 
 Alternatively, the binaries could be added to PATH.
