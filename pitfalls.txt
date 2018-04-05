@@ -29,3 +29,8 @@ agian.
 7. No cursor on last line visible.
         The cursor will not be visible if the line is filled with zeros. Thus 
         when clearing the final line upon scroll-down, use spaces instead.
+
+8. Unexpected software interrupts.
+        Mixup of hex and dec caused hardware interrupt handlers to be 
+        initialised to wrong interrupt numbers.
+

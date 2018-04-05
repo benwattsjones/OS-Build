@@ -94,12 +94,12 @@ void initializeHardwareInterrupts()
     installISR(0x27, (IRG_HANDLER) irq7 );
     installISR(0x28, (IRG_HANDLER) irq8 );
     installISR(0x29, (IRG_HANDLER) irq9 );
-    installISR(0x30, (IRG_HANDLER) irq10 );
-    installISR(0x31, (IRG_HANDLER) irq11 );
-    installISR(0x32, (IRG_HANDLER) irq12 );
-    installISR(0x33, (IRG_HANDLER) irq13 );
-    installISR(0x34, (IRG_HANDLER) irq14 );
-    installISR(0x35, (IRG_HANDLER) irq15 );
+    installISR(0x2a, (IRG_HANDLER) irq10 );
+    installISR(0x2b, (IRG_HANDLER) irq11 );
+    installISR(0x2c, (IRG_HANDLER) irq12 );
+    installISR(0x2d, (IRG_HANDLER) irq13 );
+    installISR(0x2e, (IRG_HANDLER) irq14 );
+    installISR(0x2f, (IRG_HANDLER) irq15 );
 }
 
 /* SOFTWARE INTERRUPTS */
