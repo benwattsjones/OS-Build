@@ -1,0 +1,7 @@
+*~
+
+# The cross compiler should be build for each PC
+cross-compiler/*
+!cross-compiler/README*
+
+

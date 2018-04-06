@@ -1,9 +1,10 @@
-CC = $(HOME)/Builds/os-cross-compiler/bin/i686-elf-gcc
+CC = cross-compiler/bin/i686-elf-gcc
 CFLAGS = -ffreestanding -Wall -std=c99
 AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -nostdlib -ffreestanding -lgcc
 NASM := $(shell command -v nasm 2> /dev/null)
+MKISOFS := $(shell command -v mkisofs 2> /dev/null)
 
 C_SOURCES = $(wildcard os/cpu/*.c os/drivers/*.c os/kernel/*.c)
 ASM_SOURCES = $(wildcard os/cpu/*.asm os/drivers/*.asm os/kernel/*.asm)
@@ -14,7 +15,15 @@ ASM_OBJ_FILES = ${ASM_SOURCES:.asm=.o}
 OBJ_FILES := $(ASM_OBJ_FILES) $(C_OBJ_FILES)
 
 ifndef NASM
-$(error "No nasm in PATH, consider installing nasm")
+$(error "No nasm in PATH, consider installing nasm. Required for assembly.")
+endif
+
+ifeq ("$(wildcard $(CC))", "")
+$(error "Cross-compiler not present in expected location.")
+endif
+
+ifndef MKISOFS
+$(error "No mkisofs in path, consider installing mkisofs. Required for cdrom ISO boot.")
 endif
 
 all: bootloader.bin kernel.bin 
