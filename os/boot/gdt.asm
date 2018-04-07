@@ -4,7 +4,6 @@
 ; There are better mechanisms of virtual memory (e.g. paging) that we will
 ; implement later so this is not too important, however it is a requirement
 ; of the hardware.
-; Usefull resourse: http://www.brokenthorn.com/Resources/OSDev8.html 
 
 gdt_start:
 

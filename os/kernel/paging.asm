@@ -1,10 +1,10 @@
 ; Note each table is 1024*4-bytes large (0x1000 bytes). There are 256 page
 ; tables implemented total, 0x100000 bytes. The tables are stored from physical
-; memory address 0x10000. Thus the page directory table is at addresses
-; 0x10000 - 0x11000, and the page tables are at addresses 0x11000 - 0x111000
-; (0x111000 is ~1.066MiB).
-; This gives the Kernel addresses 0x1000 - 0x10000 (0x9000 bytes total). Note
-; 42 512-byte sectors is 0x5400 bytes.
+; memory address 0x19000. Thus the page directory table is at addresses
+; 0x10000 - 0x20000, and the page tables are at addresses 0x20000 - 0x120000
+; (0x120000 is ~1.07MiB).
+; This gives the Kernel addresses 0x9000 - 0x19000 (0x10000 bytes total). Note
+; this is 128 512-byte sectors.
 ; Each page directory entry covers 4MB (0x3e8000-bytes) memory. Thus a single
 ; page directory entry is sufficient to cover The entire kernel code and paging
 ; info.
@@ -18,7 +18,7 @@ NUMBER_PAGE_TABLES equ 250
 BYTES_ADDRESSED_PER_PAGE_TABLE equ 4096
 BYTES_PER_TABLE equ 4096
 STARTING_PYSICAL_ADDRESS_TO_MAP equ 0
-TABLES_START_ADDRESS equ 0x10000
+TABLES_START_ADDRESS equ 0x19000
 NUMBER_PAGE_TABLES_IMPLEMENTED equ 256
 KERNEL_PAGE_DIRECTORY_INDEX equ 192 ; kernel virtual address space 0.75-1.00 GiB
 

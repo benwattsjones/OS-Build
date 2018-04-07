@@ -71,6 +71,17 @@ Usefull Resources:
 - http://www.brokenthorn.com/Resources/
 - https://github.com/cfenollosa/os-tutorial
 
+Memory Address Space Usage:
+---------------------------
+The following memory addresses are of particular note upon the starting of
+the kernel (os/kernel/kernel.c). For more information, files of particular
+interest include os/boot/bootloader.asm, os/kernel/paging.asm and link.ld.
+ - 0x7c00 (1 page) : bootsector code
+ - 0x9000 - 0x19000 (128 pages) : space for kernel code loaded by BIOS
+ - 0x19000 - 0x120000 : paging information
+ - 0x300000 : top of stack initialized
+ - 0x3e8000 : end of 4MiB page directory entry loaded
+
 License:
 --------
 This software is licensed under the GNU GPLv3 license (see 'LICENSE'). 
