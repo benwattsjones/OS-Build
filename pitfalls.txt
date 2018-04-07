@@ -34,3 +34,12 @@ agian.
         Mixup of hex and dec caused hardware interrupt handlers to be 
         initialised to wrong interrupt numbers.
 
+9. Bootloader freezes when too many sectors loaded using INT 0x13.
+        This was caused by loading the kernel code before the
+        bootloader. Specifically, the bootloader is at 0x7x00 whereas
+        the kernel was loaded from 0x1000 - thus overwriting it on the
+        55th page. Another cause for this issue would be if pages were
+        loaded accross a cylinder (hense should load one at a time) or
+        if more than 128 pages were loaded at a time, though both of
+        these reasons should permit the printing of an error message.
+
