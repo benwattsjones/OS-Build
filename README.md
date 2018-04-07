@@ -43,18 +43,25 @@ choose to do so entirely at your own risk.
 Building and Running:
 ---------------------
 Create the .iso file with command:
-`$ make`
-This will make bin directory with binary files, .iso file containing OS, and
-run file for running OS in qemu emulator
-Run the operating system in the qemu emulator with command:
-`$ ./run`
-Remove the binary files (placed in bin directory) and .iso file with command:
-`$ make clean`
-If the make fails, you can clean up the files created with the command:
-`$ make fail`
 
-__Either 'make fail' or 'make clean' (as appropriate) must be called before 'make'
-is called again.__
+```
+$ make
+```
+
+This will fill .bin directory with binary files, make .iso file containing OS, and
+executable run file for running OS in qemu emulator.
+
+Run the operating system in the qemu emulator with command:
+
+```
+$ ./run
+```
+
+Remove files created (or undo modifications) during compilation with command:
+
+```
+$ make clean
+```
 
 Usefull Resources:
 ------------------
