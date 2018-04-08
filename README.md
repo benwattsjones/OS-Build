@@ -65,7 +65,7 @@ $ make clean
 
 Usefull Resources:
 ------------------
-- https://www.cs.bham.ac.uk/~exr/lectures/opsys/10\_11/lectures/os-dev.pdf
+- https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf
 - http://wiki.osdev.org/Tutorials
 - https://software.intel.com/sites/default/files/managed/a4/60/325384-sdm-vol-3abcd.pdf
 - http://www.brokenthorn.com/Resources/
@@ -113,7 +113,7 @@ a linux environment.
  - wget
  - tar
 
-Much credit for these instructions must go to http://wiki.osdev.org/GCC\_Cross-Compiler,
+Much credit for these instructions must go to http://wiki.osdev.org/GCC_Cross-Compiler,
 which I have modified here.
 
 Downloading the Prerequisits:
