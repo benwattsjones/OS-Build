@@ -15,6 +15,12 @@ C_OBJ_FILES = ${C_SOURCES:.c=.o}
 ASM_OBJ_FILES = ${ASM_SOURCES:.asm=.o}
 OBJ_FILES := $(ASM_OBJ_FILES) $(C_OBJ_FILES)
 
+OBJ_FILES_NAMES = $(basename $(notdir $(OBJ_FILES)))
+ifneq ($(words $(sort $(OBJ_FILES_NAMES))), $(words $(OBJ_FILES_NAMES)))
+$(info "Your file basenames: $(OBJ_FILES_NAMES)")
+$(error "All file basenames must be unique compile.")
+endif
+
 ### Check required dependecies exist / are installed
 
 NASM := $(shell command -v nasm 2> /dev/null)
