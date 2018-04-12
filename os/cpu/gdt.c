@@ -37,16 +37,23 @@ struct GDTDescriptor {
 
 struct GDTRegister {
     uint16_t gdt_size;
-    uint32_t gdt_base_address;
+    void *gdt_base_address;
 } __attribute__ ((packed));
 
 static struct GDTDescriptor _gdt[MAX_DESCRIPTORS];
-static struct GDTRegister _gdtr;
+//static struct GDTRegister __attribute__((used)) _gdtr = {
+//    (sizeof(struct GDTDescriptor) * MAX_DESCRIPTORS) - 1,
+//    (uint32_t)&_gdt[0]
+//};
 
-void installGDT()
+static void installGDT()
 {
-    __asm__ __volatile__ ("cli"); // Not really neccessary as done by boot anyway
-    __asm__ __volatile__ ("lgdt (_gdtr)");
+    struct GDTRegister _gdtr = {
+        (sizeof(struct GDTDescriptor) * MAX_DESCRIPTORS) - 1,
+        (void *)&_gdt[0]
+    };
+    __asm__ __volatile__ ("cli" : : : "memory"); // Not really neccessary as done by boot anyway
+    __asm__ __volatile__ ("lgdt %0" : : "m"(_gdtr) : "memory");
 }
 
 void setGDTDescriptor(uint32_t i, uint32_t base, uint32_t limit, uint8_t flags, 
@@ -65,8 +72,8 @@ void setGDTDescriptor(uint32_t i, uint32_t base, uint32_t limit, uint8_t flags,
 
 void initializeGDT() 
 {
-    _gdtr.gdt_size = (sizeof(struct GDTDescriptor) * MAX_DESCRIPTORS) - 1;
-    _gdtr.gdt_base_address = (uint32_t)&_gdt[0];
+//    _gdtr.gdt_size = (sizeof(struct GDTDescriptor) * MAX_DESCRIPTORS) - 1;
+//    _gdtr.gdt_base_address = (uint32_t)&_gdt[0];
 
     // Set null descriptor
     setGDTDescriptor(0, 0, 0, 0, 0);

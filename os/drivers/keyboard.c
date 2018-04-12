@@ -34,7 +34,7 @@ static char *scan_codes2[0x40] = {"?\0", "?\0", "1\0", "2\0", "3\0", "4\0", "5\0
 
 // covers 0x0 - 0x39 of original XT scan codes.
 // Called by keyboard IRQ1 handler in interrupts.c in os/cpu/
-void printKeyInput(uint8_t scan_code)
+void printKeyInput(uint32_t scan_code)
 {
     if (scan_code <= 0x39) {
         print(scan_codes2[scan_code]);

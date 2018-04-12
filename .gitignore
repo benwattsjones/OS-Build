@@ -4,4 +4,4 @@
 cross-compiler/*
 !cross-compiler/README*
 
-
+os/kernel/iso9660.*_

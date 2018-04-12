@@ -13,7 +13,7 @@
 ### Define parameters for compilation etc.
 
 CC = cross-compiler/bin/i686-elf-gcc
-CFLAGS = -ffreestanding -Wall -std=c99
+CFLAGS = -ffreestanding -Wall -Wextra -std=c99 -O3
 AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -nostdlib -ffreestanding -lgcc

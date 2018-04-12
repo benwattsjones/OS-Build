@@ -10,13 +10,13 @@
  * GPLv3 license for more details.
  */
 
-/* This is the main kernel file. It is entered at main() and called by 
- * kernel_entry.asm.
- */
-
 #include "../drivers/screen.h"
 #include "../cpu/gdt.h"
 #include "../cpu/cpu.h"
+
+/* This is the main kernel file. It is entered at main() and called by 
+ * kernel_entry.asm.
+ */
 
 int main() 
 {

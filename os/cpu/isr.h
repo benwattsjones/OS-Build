@@ -10,11 +10,12 @@
  * GPLv3 license for more details.
  */
 
-#ifndef DRIVERS_KEYBOARD_H
-#define DRIVERS_KEYBOARD_H
+#ifndef CPU_ISR_H
+#define CPU_ISR_H
 
-#include <stdint.h>
-
-void printKeyInput(uint32_t scan_code);
+void handleHardwareInterrupts_timer();
+void handleHardwareInterrupts_keyboard();
+void handleHardwareInterrupts_low();
+void handleHardwareInterrupts_high();
 
 #endif

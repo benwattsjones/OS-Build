@@ -19,6 +19,7 @@
 #include "ioports.h"
 #include "../drivers/keyboard.h"
 #include "../drivers/timer.h"
+#include "isr.h"
 
 /* This file sets up hardware interrupt handlers using the functions from 
  * 'idt.c'. These are set to interrupts 32-48, as previous interrupts either
@@ -52,7 +53,7 @@
  * to the pic, allowing another interrupt to be fired.
  */
 
-void handleHardwareInterrupts_keyboard(uint8_t irq)
+/*void handleHardwareInterrupts_keyboard(uint8_t irq)
 {
     __asm__ ("cli");
     uint8_t scan_code = portByteIn(0x60);
@@ -92,26 +93,26 @@ void irq11() { handleHardwareInterrupts(11); }
 void irq12() { handleHardwareInterrupts(12); }
 void irq13() { handleHardwareInterrupts(13); }
 void irq14() { handleHardwareInterrupts(14); }
-void irq15() { handleHardwareInterrupts(15); }
+void irq15() { handleHardwareInterrupts(15); }*/
 
 void initializeHardwareInterrupts()
 {
-    installISR(0x20, (IRG_HANDLER) irq0 ); // 0x20 == 32
-    installISR(0x21, (IRG_HANDLER) irq1 );
-    installISR(0x22, (IRG_HANDLER) irq2 );
-    installISR(0x23, (IRG_HANDLER) irq3 );
-    installISR(0x24, (IRG_HANDLER) irq4 );
-    installISR(0x25, (IRG_HANDLER) irq5 );
-    installISR(0x26, (IRG_HANDLER) irq6 );
-    installISR(0x27, (IRG_HANDLER) irq7 );
-    installISR(0x28, (IRG_HANDLER) irq8 );
-    installISR(0x29, (IRG_HANDLER) irq9 );
-    installISR(0x2a, (IRG_HANDLER) irq10 );
-    installISR(0x2b, (IRG_HANDLER) irq11 );
-    installISR(0x2c, (IRG_HANDLER) irq12 );
-    installISR(0x2d, (IRG_HANDLER) irq13 );
-    installISR(0x2e, (IRG_HANDLER) irq14 );
-    installISR(0x2f, (IRG_HANDLER) irq15 );
+    installISR(0x20, handleHardwareInterrupts_timer); // 0x20 == 32
+    installISR(0x21, handleHardwareInterrupts_keyboard);
+    installISR(0x22, handleHardwareInterrupts_low);
+    installISR(0x23, handleHardwareInterrupts_low);
+    installISR(0x24, handleHardwareInterrupts_low);
+    installISR(0x25, handleHardwareInterrupts_low);
+    installISR(0x26, handleHardwareInterrupts_low);
+    installISR(0x27, handleHardwareInterrupts_low);
+    installISR(0x28, handleHardwareInterrupts_high);
+    installISR(0x29, handleHardwareInterrupts_high);
+    installISR(0x2a, handleHardwareInterrupts_high);
+    installISR(0x2b, handleHardwareInterrupts_high);
+    installISR(0x2c, handleHardwareInterrupts_high);
+    installISR(0x2d, handleHardwareInterrupts_high);
+    installISR(0x2e, handleHardwareInterrupts_high);
+    installISR(0x2f, handleHardwareInterrupts_high);
 }
 
 /* SOFTWARE INTERRUPTS */
