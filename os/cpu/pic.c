@@ -42,7 +42,7 @@
  * IRQs to fire.
  *
  * An end of interrupt signal (EOI) must also be sent after each interrupt
- * to allow subsiquent interrupts.
+ * to allow subsiquent interrupts. This is now implemented in isr.asm.
  */
 
 #define PIC_1_CTRL 0x20  // primary PIC control register
@@ -60,8 +60,6 @@
 
 #define ICW_4 0x01  // bit 0 enables 80x86 mode
 
-#define PIC_EOI 0x20
-
 void initializePIC()
 {
     portByteOut(PIC_1_CTRL, ICW_1);
@@ -74,12 +72,5 @@ void initializePIC()
     portByteOut(PIC_2_DATA, ICW_4);
     portByteOut(PIC_1_DATA, 0x00);
     portByteOut(PIC_2_DATA, 0x00);
-}
-
-void sendPICEOI(uint8_t irq)
-{
-    portByteOut(PIC_1_CTRL, PIC_EOI);
-    if (irq >=8)
-        portByteOut(PIC_2_CTRL, PIC_EOI);
 }
 

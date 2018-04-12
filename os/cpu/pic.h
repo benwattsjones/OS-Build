@@ -16,6 +16,5 @@
 #include <stdint.h>
 
 void initializePIC();
-void sendPICEOI(uint8_t irq);
 
 #endif

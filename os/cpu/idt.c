@@ -14,6 +14,7 @@
 
 #include "idt.h"
 #include "../drivers/screen.h" 
+#include "isr.h"
 
 /* There are hardware and software interrupts. This file initialises software
  * interrupts (e.g. INT $0x80). When an interrupt is fired, its interrupt 
@@ -58,11 +59,6 @@ struct idtr {
     void *idt_base_address;
 } __attribute__((packed));
 
-//static struct idtr __attribute__((used)) _idtr = {
-//    sizeof(struct IDTDescriptor) * X86_MAX_INTERRUPTS - 1,
-//    (uint32_t)&_idt[0]
-//};
-
 static void installIDT() 
 {
     struct idtr _idtr = {
@@ -70,12 +66,6 @@ static void installIDT()
         (void *)&_idt[0]
     };
     __asm__ __volatile__ ("lidt %0" : : "m"(_idtr) : "memory");
-}
-
-void handleInterruptDefault()
-{
-    print("Error: Unhandled Exception\n\0");
-    __asm__ ("sti");
 }
 
 void installISR(uint32_t irq_number, IRG_HANDLER irq_routine)
@@ -92,10 +82,9 @@ void installISR(uint32_t irq_number, IRG_HANDLER irq_routine)
 
 void initializeIDT()
 {
-//    _idtr.idt_size = sizeof(struct IDTDescriptor) * X86_MAX_INTERRUPTS - 1;
-//    _idtr.idt_base_address = (uint32_t)&_idt[0];
     int interrupt_num;
     for (interrupt_num = 0; interrupt_num < X86_MAX_INTERRUPTS; interrupt_num++)
-        installISR(interrupt_num, (IRG_HANDLER) handleInterruptDefault);
+        installISR(interrupt_num, handleInterruptDefault);
     installIDT();
 }
+

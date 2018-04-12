@@ -16,7 +16,7 @@ CC = cross-compiler/bin/i686-elf-gcc
 CFLAGS = -ffreestanding -Wall -Wextra -std=c99 -O3
 AS = nasm
 ASFLAGS = -f elf
-LDFLAGS = -nostdlib -ffreestanding -lgcc
+LDFLAGS = -nostdlib -ffreestanding -lgcc -O3 -Wall -Wextra
 
 ### Locate object/program files for creation of kernel.bin (NOT bootloader.bin)
 

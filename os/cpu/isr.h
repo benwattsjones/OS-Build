@@ -13,9 +13,44 @@
 #ifndef CPU_ISR_H
 #define CPU_ISR_H
 
-void handleHardwareInterrupts_timer();
-void handleHardwareInterrupts_keyboard();
+void handleInterruptDefault();
+
+void handleInterruptTimer();
+void handleInterruptKeyboard();
 void handleHardwareInterrupts_low();
 void handleHardwareInterrupts_high();
+
+void handleException0();
+void handleException1();
+void handleException2();
+void handleException3();
+void handleException4();
+void handleException5();
+void handleException6();
+void handleException7();
+void handleException8();
+void handleException9();
+void handleException10();
+void handleException11();
+void handleException12();
+void handleException13();
+void handleException14();
+void handleException15();
+void handleException16();
+void handleException17();
+void handleException18();
+void handleException19();
+void handleException20();
+void handleException21();
+void handleException22();
+void handleException23();
+void handleException24();
+void handleException25();
+void handleException26();
+void handleException27();
+void handleException28();
+void handleException29();
+void handleException30();
+void handleException31();
 
 #endif

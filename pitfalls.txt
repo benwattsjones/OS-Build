@@ -43,3 +43,16 @@ agian.
         if more than 128 pages were loaded at a time, though both of
         these reasons should permit the printing of an error message.
 
+10. GCC optimisations (e.g. -O1 option) causes unexpected exception.
+    General wierd behaviour around interrupts (e.g. invalid opcode fault).
+        This was caused by the fact that interrupt handlers were 
+        originally written in C, not assembly. With compiler optimisations,
+        this caused the stack or registers to not be preserved. RET was
+        also used instead of IRET. This meant the code returned to upon
+        interrupt completion would be highly unpredictable. Writing
+        interrupt handlers in assembly gave greater control so as to
+        avoid these issues.
+        Note also that a repeating interrupt is not neccesserily the
+        result of a timer tick, as some interrupts such as invalid opcode
+        return to the code that caused the error.
+
