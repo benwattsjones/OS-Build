@@ -13,6 +13,7 @@
 #include "../drivers/screen.h"
 #include "../cpu/gdt.h"
 #include "../cpu/cpu.h"
+#include "../drivers/atapi.h"
 
 /* This is the main kernel file. It is entered at main() and called by 
  * kernel_entry.asm.
@@ -23,6 +24,7 @@ int main()
     clearScreen();
     initializeGDT();
     initializeInterrupts();
+    initializeATAPI();
 
     char *pstr = "Welcome to the OS!\n\0";
     printHeader(pstr, 0, RED_ORANGE_FOREGROUND);

@@ -44,8 +44,8 @@ void initializeHardwareInterrupts()
     installISR(0x2b, handleHardwareInterrupts_high);
     installISR(0x2c, handleHardwareInterrupts_high);
     installISR(0x2d, handleHardwareInterrupts_high);
-    installISR(0x2e, handleHardwareInterrupts_high);
-    installISR(0x2f, handleHardwareInterrupts_high);
+    installISR(0x2e, handleInterruptPrimaryATA);
+    installISR(0x2f, handleInterruptSecondaryATA);
 }
 
 void initializeSoftwareInterrupts()

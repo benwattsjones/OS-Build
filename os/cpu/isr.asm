@@ -45,6 +45,10 @@ ISR_DEFAULT_MSG:
 
 ISR_HARDWARE_DEFAULT_MSG:
     db "Error: unhandled hardware interrupt.", 0x0a, 0
+ISR_HARDWARE_ATA1_MSG:
+    db "Primary ATA interrupt.", 0x0a, 0
+ISR_HARDWARE_ATA2_MSG:
+    db "Secondary ATA interrupt.", 0x0a, 0
 
 ISR_EXCEPTION_0_MSG:
     db "Exception 0: divide by zero error.", 0x0a, 0
@@ -138,6 +142,34 @@ handleInterruptTimer:
     popad
     iret
 
+global handleInterruptPrimaryATA
+handleInterruptPrimaryATA:
+    pushad
+    cli
+    push ISR_HARDWARE_ATA1_MSG
+    call print
+    add esp, 4
+    mov al, 0x20
+    out 0xa0, al
+    out 0x20, al
+    sti
+    popad
+    iret
+
+global handleInterruptSecondaryATA
+handleInterruptSecondaryATA:
+    pushad
+    cli
+    push ISR_HARDWARE_ATA2_MSG
+    call print
+    add esp, 4
+    mov al, 0x20
+    out 0xa0, al
+    out 0x20, al
+    sti
+    popad
+    iret
+
 global handleHardwareInterrupts_low
 handleHardwareInterrupts_low:
     pushad
@@ -160,6 +192,7 @@ handleHardwareInterrupts_high:
     add esp, 4
     mov al, 0x20
     out 0xa0, al
+    out 0x20, al
     sti
     popad
     iret

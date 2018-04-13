@@ -17,6 +17,8 @@ void handleInterruptDefault();
 
 void handleInterruptTimer();
 void handleInterruptKeyboard();
+void handleInterruptPrimaryATA();
+void handleInterruptSecondaryATA();
 void handleHardwareInterrupts_low();
 void handleHardwareInterrupts_high();
 
