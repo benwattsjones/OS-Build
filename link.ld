@@ -24,7 +24,7 @@ OUTPUT(".bin/kernel.bin")
  * loads the pages */
 SECTIONS
 {
-    . = 0x30009000;
+    . = 0x30001000;
     
     .text : AT(ADDR(.text) - 0x30000000) { 
         *(.text)

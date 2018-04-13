@@ -69,11 +69,11 @@ task2_print_loaded_16bit_message:
 ; sectors into RAM as well, to a location we specify.
 task3_read_sectors_from_disk:
     ; 2nd arg is address to load sectors into. Note: .= in link.ld
-    push word 0x9000
+    push word 0x1000
     ; 1st arg is number of sectors to load (located immediately after boot
     ; sector code). NOTE: qemu fails if more requested than present in .iso
     ; Note: set by fallocate in Makefile
-    push word 128
+    push word 50
     call read_sectors_16bit
     add sp, 4
     cmp ax, 0
@@ -125,7 +125,7 @@ task6_setup_protected_mode:
 
 task7_call_kernel:
     ; jump to address where kernel_entry loaded into memory in "task3_"
-    call 0x9000
+    call 0x1000
 
 ; This causes the program to 'hang' (i.e. jump to the current address forever).
 ; No further code will be executed in this file. This allows us to define 

@@ -24,7 +24,7 @@
 [extern main]
 
 global start
-start equ (_start - 0x30000000)
+start equ (_start - KERNEL_PAGE_DIRECTORY_ADDRESS)
 
 _start:
     createPageDirectoryTable 

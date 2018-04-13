@@ -15,8 +15,8 @@
 ; memory address 0x19000. Thus the page directory table is at addresses
 ; 0x10000 - 0x20000, and the page tables are at addresses 0x20000 - 0x120000
 ; (0x120000 is ~1.07MiB).
-; This gives the Kernel addresses 0x9000 - 0x19000 (0x10000 bytes total). Note
-; this is 128 512-byte sectors.
+; This gives the Kernel addresses 0x1000 - 0x19000 (0x10000 bytes total). Note
+; though that bios int 0x13 cannot address RAM past address 0x10000.
 ; Each page directory entry covers 4MB (0x3e8000-bytes) memory. Thus a single
 ; page directory entry is sufficient to cover The entire kernel code and paging
 ; info.
@@ -33,6 +33,7 @@ STARTING_PYSICAL_ADDRESS_TO_MAP equ 0
 TABLES_START_ADDRESS equ 0x19000
 NUMBER_PAGE_TABLES_IMPLEMENTED equ 256
 KERNEL_PAGE_DIRECTORY_INDEX equ 192 ; kernel virtual address space 0.75-1.00 GiB
+KERNEL_PAGE_DIRECTORY_ADDRESS equ 0x30000000
 
 ; Creates a page directory table from address TABLES_START_ADDRESS with entries
 ; pointing to tables packed from physical address TABLES_START_ADDRESS +
