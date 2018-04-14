@@ -56,6 +56,7 @@ uint8_t identifyDrive(uint32_t bus, uint32_t drive)
     } else {
         print("Unknown ATA-like drive exists\n\0");
     }
+    printk("LBAmid: %x, LBAhigh: %x\n\0", status_mid, status_high);
     return 1;
 }
 
@@ -67,10 +68,9 @@ void initializeATAPI()
     if (ata_status == 0xff) {
         print("Nothing attached\n\0");
     } else {
-        if (isDrivePacketDevice(ATA_BUS_ADDR_PRIMARY)) {
-            identifyDrive(ATA_BUS_ADDR_PRIMARY, ATA_DRIVE_MASTER);
-            identifyDrive(ATA_BUS_ADDR_PRIMARY, ATA_DRIVE_SLAVE);
-        }
+        isDrivePacketDevice(ATA_BUS_ADDR_PRIMARY);
+        identifyDrive(ATA_BUS_ADDR_PRIMARY, ATA_DRIVE_MASTER);
+        identifyDrive(ATA_BUS_ADDR_PRIMARY, ATA_DRIVE_SLAVE);
     }
     resetATA(ATA_BUS_ADDR_PRIMARY);
 
@@ -79,10 +79,9 @@ void initializeATAPI()
     if (ata_status2 == 0xff) {
         print("Nothing attached\n\0");
     } else {
-        if (isDrivePacketDevice(ATA_BUS_ADDR_SECONDARY)) {
-            identifyDrive(ATA_BUS_ADDR_SECONDARY, ATA_DRIVE_MASTER);
-            identifyDrive(ATA_BUS_ADDR_SECONDARY, ATA_DRIVE_SLAVE);
-        }
+        isDrivePacketDevice(ATA_BUS_ADDR_SECONDARY);
+        identifyDrive(ATA_BUS_ADDR_SECONDARY, ATA_DRIVE_MASTER);
+        identifyDrive(ATA_BUS_ADDR_SECONDARY, ATA_DRIVE_SLAVE);
     }
     resetATA(ATA_BUS_ADDR_SECONDARY);
     __asm__ ("sti");

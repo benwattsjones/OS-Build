@@ -46,4 +46,8 @@ void printHeader(char *message, int32_t col, char attribute_byte);
 
 void clearScreen();
 
+void printHex(uint32_t hex);
+
+void printk(const char *fmt, ...);
+
 #endif

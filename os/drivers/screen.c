@@ -11,6 +11,7 @@
  */
 
 #include <stdint.h>
+#include <stdarg.h>
 
 #include "screen.h"
 #include "../cpu/ioports.h"
@@ -240,5 +241,65 @@ void printHeader(char *message, int32_t col, char attribute_byte)
         i++;
         col = col + BYTES_PER_CHAR;
     }
+}
+
+// Special functions
+
+static const char hex_ascii_table[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
+                                         '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+// ascii must be length 9 array (or more) initialized to all zero.
+void convertHexToAscii(uint32_t hex, char *ascii)
+{
+    int i, j;
+    uint32_t remainder;
+    for (i = 0; i < 8; i++) { // 32-bit hex is max 8 ascii chars
+        remainder = hex % 16;
+        hex = hex / 16;
+        ascii[i] = hex_ascii_table[remainder];
+        if (hex == 0) break;
+    }
+    char swap_value;
+    for (j = 0; i > 0; i--, j++) {
+        swap_value = ascii[j];
+        ascii[j] = ascii[i];
+        ascii[i] = swap_value;
+    }
+}
+
+void printHex(uint32_t hex)
+{
+    char ascii[9] = {0};
+    convertHexToAscii(hex, ascii);
+    print(ascii);
+}
+
+void printk(const char *fmt, ...)
+{
+    va_list valist;
+    const char *iter_char;
+    uint32_t uint_mod;
+    va_start(valist, fmt);
+    for (iter_char = fmt; *iter_char != '\0'; iter_char++) {
+        if (*iter_char != '%') {
+            print_char(*iter_char, -1, -1, 0);
+            continue;
+        }
+        switch(*++iter_char)
+        {
+        case 'x':
+            uint_mod = va_arg(valist, uint32_t);
+            printHex(uint_mod);
+            break;
+        case '%':
+            print_char('%', -1, -1, 0);
+            break;
+        default:
+            print_char('%', -1, -1, 0);
+            print_char(*iter_char, -1, -1, 0);
+            break;
+        }
+    }
+    va_end(valist);
 }
 
