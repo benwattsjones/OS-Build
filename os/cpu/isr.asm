@@ -95,7 +95,7 @@ ISR_EXCEPTION_30_MSG:
 ISR_EXCEPTION_RESERVED_MSG:
     db "Exception 15: [reserved].", 0x0a, 0
 
-extern print
+extern printk
 extern printKeyInput
 extern printTimeElapsed
 
@@ -106,7 +106,7 @@ handleInterruptDefault:
     pushad
     cli
     push ISR_DEFAULT_MSG
-    call print
+    call printk
     add esp, 4
     sti
     popad
@@ -147,7 +147,7 @@ handleInterruptPrimaryATA:
     pushad
     cli
     push ISR_HARDWARE_ATA1_MSG
-    call print
+    call printk
     add esp, 4
     mov al, 0x20
     out 0xa0, al
@@ -161,7 +161,7 @@ handleInterruptSecondaryATA:
     pushad
     cli
     push ISR_HARDWARE_ATA2_MSG
-    call print
+    call printk
     add esp, 4
     mov al, 0x20
     out 0xa0, al
@@ -175,7 +175,7 @@ handleHardwareInterrupts_low:
     pushad
     cli 
     push ISR_HARDWARE_DEFAULT_MSG
-    call print
+    call printk
     add esp, 4
     mov al, 0x20
     out 0x20, al
@@ -188,7 +188,7 @@ handleHardwareInterrupts_high:
     pushad
     cli
     push ISR_HARDWARE_DEFAULT_MSG
-    call print
+    call printk
     add esp, 4
     mov al, 0x20
     out 0xa0, al
@@ -203,7 +203,7 @@ handleHardwareInterrupts_high:
     cli
     pushad
     push %1
-    call print
+    call printk
     add esp, 4
     popad
     sti
@@ -214,7 +214,7 @@ handleHardwareInterrupts_high:
     cli
     pushad
     push %1
-    call print
+    call printk
     add esp, 4
     sti
 .hlt_loop:
@@ -229,7 +229,7 @@ handleHardwareInterrupts_high:
     add esp, 4 ; get rid of error code (will implement printing at later date)
     pushad
     push %1
-    call print
+    call printk
     add esp, 4
     sti
 .hlt_loop2:

@@ -109,7 +109,7 @@
 #define CURSOR_LOCATION_HIGH_OFFSET 0xe
 #define CURSOR_LOCATION_LOW_OFFSET 0xf
 
-int32_t handle_scrolling(int32_t cursor_offset);
+int32_t handleScrolling(int32_t cursor_offset);
 
 int32_t getCursor()
 {
@@ -120,7 +120,7 @@ int32_t getCursor()
     return offset * BYTES_PER_CHAR;
 }
 
-void memory_copy(char *source, char *dest, int32_t no_bytes)
+void copyMemory(char *source, char *dest, int32_t no_bytes)
 {
     int32_t i;
     for (i = 0; i < no_bytes; i++) {
@@ -158,11 +158,11 @@ int32_t updateOffsetNewLine(int32_t offset)
 void moveCursorAlong(int32_t offset)
 {
     offset += BYTES_PER_CHAR;
-    offset = handle_scrolling(offset);
+    offset = handleScrolling(offset);
     setCursor(offset);
 }
 
-void print_char(char character, int32_t col, int32_t row, char attribute_byte)
+void printChar(char character, int32_t col, int32_t row, char attribute_byte)
 {
     volatile unsigned char *vidmem = (volatile unsigned char *) VIDEO_ADDRESS;
     attribute_byte = attribute_byte ? attribute_byte : DEF_STYLE;
@@ -181,7 +181,7 @@ int convertColRowToOffset(int32_t col, int32_t row)
     return (row * MAX_COLS + col) * BYTES_PER_CHAR;
 }
 
-int32_t handle_scrolling(int32_t cursor_offset)
+int32_t handleScrolling(int32_t cursor_offset)
 {
     // Nothing changes if no overflow
     if (cursor_offset < MAX_ROWS * MAX_COLS * BYTES_PER_CHAR) {
@@ -190,7 +190,7 @@ int32_t handle_scrolling(int32_t cursor_offset)
     int32_t i;
     // Move each lines memory back a line (exc. header hence 2)
     for (i = 2; i < MAX_ROWS; i++) {
-        memory_copy((char *) (convertColRowToOffset(0, i) + VIDEO_ADDRESS),
+        copyMemory((char *) (convertColRowToOffset(0, i) + VIDEO_ADDRESS),
                     (char *) (convertColRowToOffset(0, i-1) + VIDEO_ADDRESS),
                     MAX_COLS * BYTES_PER_CHAR);
     }
@@ -208,13 +208,8 @@ void printAt(char *message, int32_t col, int32_t row, char attribute_byte)
 {
     int32_t i = 0;
     while (message[i] != 0) {
-        print_char(message[i++], col, row, attribute_byte);
+        printChar(message[i++], col, row, attribute_byte);
     }
-}
-
-void print(char *message)
-{
-    printAt(message, -1, -1, 0);
 }
 
 void clearScreen() 
@@ -223,7 +218,7 @@ void clearScreen()
     int32_t col;
     for (row = 0; row < MAX_ROWS; row++) {
         for (col = 0; col < MAX_COLS; col++) {
-            print_char(' ', col, row, 0);
+            printChar(' ', col, row, 0);
         }
     }
     setCursor(convertColRowToOffset(0, 1));
@@ -231,6 +226,7 @@ void clearScreen()
 
 void printHeader(char *message, int32_t col, char attribute_byte)
 {
+    col = (col > 0) ? col : 0;
     attribute_byte = attribute_byte ? attribute_byte : DEF_STYLE;
     volatile unsigned char *header_mem = (volatile unsigned char *) VIDEO_ADDRESS;
     int32_t i = 0;
@@ -242,8 +238,6 @@ void printHeader(char *message, int32_t col, char attribute_byte)
         col = col + BYTES_PER_CHAR;
     }
 }
-
-// Special functions
 
 static const char hex_ascii_table[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
                                          '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
@@ -271,7 +265,7 @@ void printHex(uint32_t hex)
 {
     char ascii[9] = {0};
     convertHexToAscii(hex, ascii);
-    print(ascii);
+    printAt(ascii, DEFAULT_COL, DEFAULT_ROW, DEFAULT_STYLE);
 }
 
 void printk(const char *fmt, ...)
@@ -282,7 +276,7 @@ void printk(const char *fmt, ...)
     va_start(valist, fmt);
     for (iter_char = fmt; *iter_char != '\0'; iter_char++) {
         if (*iter_char != '%') {
-            print_char(*iter_char, -1, -1, 0);
+            printChar(*iter_char, DEFAULT_COL, DEFAULT_ROW, DEFAULT_STYLE);
             continue;
         }
         switch(*++iter_char)
@@ -292,11 +286,11 @@ void printk(const char *fmt, ...)
             printHex(uint_mod);
             break;
         case '%':
-            print_char('%', -1, -1, 0);
+            printChar('%', DEFAULT_COL, DEFAULT_ROW, DEFAULT_STYLE);
             break;
         default:
-            print_char('%', -1, -1, 0);
-            print_char(*iter_char, -1, -1, 0);
+            printChar('%', DEFAULT_COL, DEFAULT_ROW, DEFAULT_STYLE);
+            printChar(*iter_char, DEFAULT_COL, DEFAULT_ROW, DEFAULT_STYLE);
             break;
         }
     }

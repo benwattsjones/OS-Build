@@ -13,8 +13,6 @@
 #include <stdint.h>
 #include "screen.h"
 
-#define DEF_STYLE 0
-
 /* This file prints the time elapsed at the first row of the screen to the
  * nearest second and stores the time elapsed in a struct to the nearest
  * 50ms. The function printTimeElapsed() is called with eack clock tick 
@@ -64,10 +62,10 @@ void printTimeElapsed()
     updateTimeElapsed();
     char time_element[3] = {0, 0, 0}; // need extra for null ptr
     convertTwoDigitAscii(TimeElapsed.hours, time_element);
-    printHeader(time_element, 30, DEF_STYLE);
+    printHeader(time_element, 30, DEFAULT_STYLE);
     convertTwoDigitAscii(TimeElapsed.mins, time_element);
-    printHeader(time_element, 33, DEF_STYLE);
+    printHeader(time_element, 33, DEFAULT_STYLE);
     convertTwoDigitAscii(TimeElapsed.secs, time_element);
-    printHeader(time_element, 36, DEF_STYLE);
+    printHeader(time_element, 36, DEFAULT_STYLE);
 }
 

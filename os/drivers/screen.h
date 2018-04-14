@@ -35,19 +35,15 @@
 
 #define INTENSE_BACKGROUND 0x80
 
-// Note offset is bytes not chars
-int32_t getCursor();
-void setCursor(int32_t offset);
+// For user defined functions - not hardware defaults
+#define DEFAULT_COL -1
+#define DEFAULT_ROW -1
+#define DEFAULT_STYLE 0
 
-// Note strings must be null terminated. DEF_STYLE if attribute_byte is 0.
 void printAt(char *message, int32_t col, int32_t row, char attribute_byte);
-void print(char *message);
 void printHeader(char *message, int32_t col, char attribute_byte);
-
 void clearScreen();
-
-void printHex(uint32_t hex);
-
 void printk(const char *fmt, ...);
 
 #endif
+

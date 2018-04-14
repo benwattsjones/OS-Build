@@ -27,7 +27,7 @@ int main()
     initializeATAPI();
 
     char *pstr = "Welcome to the OS!\n\0";
-    printHeader(pstr, 0, RED_ORANGE_FOREGROUND);
+    printHeader(pstr, DEFAULT_COL, RED_ORANGE_FOREGROUND);
 
     for (;;)
         __asm__ ("hlt");

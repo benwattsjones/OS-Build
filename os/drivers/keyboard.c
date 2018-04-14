@@ -37,8 +37,8 @@ static char *scan_codes2[0x40] = {"?\0", "?\0", "1\0", "2\0", "3\0", "4\0", "5\0
 void printKeyInput(uint32_t scan_code)
 {
     if (scan_code <= 0x39) {
-        print(scan_codes2[scan_code]);
+        printk(scan_codes2[scan_code]);
     } else if (scan_code < 0x80) { // Key up codes at 0x80+
-        print("?\0");
+        printk("?\0");
     }
 }
