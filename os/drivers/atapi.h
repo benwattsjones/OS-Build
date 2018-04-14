@@ -38,8 +38,27 @@
 #define ATAPI_COMMAND_IDENTIFY 0xa1 
 #define ATA_COMMAND_IDENTIFY 0xec
 
+// Definitions of the bits in the command/status port when read
 #define ATA_STATUS_BUSY 0x80
-#define ATA_STATUS_ERR 0x01
+#define ATA_STATUS_READY 0x40
+#define ATA_STATUS_WRITE_FAULT 0x20
+#define ATA_STATUS_SEEK_COMPLETE 0x10
+#define ATA_STATUS_REQUEST_READY 0x8
+#define ATA_STATUS_CORRECTED_DATA 0x4
+#define ATA_STATUS_INDEX 0x2
+#define ATA_STATUS_ERROR 0x1
+
+// Definitions of the bits in the features/error port when read
+#define ATA_ERROR_BAD_SECTOR 0x80
+#define ATA_ERROR_UNCORRECTABLE_DATA 0x40
+#define ATA_ERROR_NO_MEDIA 0x20
+#define ATA_ERROR_NO_ID 0x10
+#define ATA_ERROR_NO_MEDIA2 0x08
+#define ATA_ERROR_ABORTED 0x04
+#define ATA_ERROR_TRACK0_NOT_FOUND 0x02
+#define ATA_ERROR_ERROR 0x01
+
+
 
 void initializeATAPI();
 

@@ -14,6 +14,7 @@ void resetATA(uint32_t bus)
 
 uint32_t isDrivePacketDevice(uint32_t bus)
 {
+    uint32_t ret = 1;
     resetATA(bus);
     uint8_t sig1 = portByteIn(ATA_REG_SECTOR_COUNT(bus));
     uint8_t sig2 = portByteIn(ATA_REG_ADDR_LOW(bus));
@@ -25,9 +26,10 @@ uint32_t isDrivePacketDevice(uint32_t bus)
         printk("Packet device detected\n\0");
     } else {
         printk("No valid packet data recorded\n\0");
-        return 0;
+        ret = 0;
     }
-    return 1;
+    printk("Device data: %x %x %x %x\n\0", sig1, sig2, sig3, sig4);
+    return ret;
 }
 
 uint8_t identifyDrive(uint32_t bus, uint32_t drive)
@@ -45,6 +47,7 @@ uint8_t identifyDrive(uint32_t bus, uint32_t drive)
         printk("Drive does not exist\n\0");
         return 0;
     }
+    printk("Status reg: %x\n\0", status);
     uint8_t status_mid = portByteIn(ATA_REG_ADDR_MID(bus));
     uint8_t status_high = portByteIn(ATA_REG_ADDR_HIGH(bus));
     if (status_mid == 0 && status_high == 0) {
@@ -65,6 +68,7 @@ void initializeATAPI()
     __asm__ ("cli");
     printk("ATA controller primary:\n\0");
     uint8_t ata_status = portByteIn(ATA_REG_COMMAND_STATUS(ATA_BUS_ADDR_PRIMARY));
+    printk("ATA status init: %x\n\0", ata_status);
     if (ata_status == 0xff) {
         printk("Nothing attached\n\0");
     } else {
@@ -76,6 +80,7 @@ void initializeATAPI()
 
     printk("ATA controller secondary:\n\0");
     uint8_t ata_status2 = portByteIn(ATA_REG_COMMAND_STATUS(ATA_BUS_ADDR_SECONDARY));
+    printk("ATA status init: %x\n\0", ata_status2);
     if (ata_status2 == 0xff) {
         printk("Nothing attached\n\0");
     } else {
