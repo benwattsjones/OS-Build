@@ -20,10 +20,13 @@
  * the corresponding ASCII code and prints the result. Whilst there are
  * different scan code sets, this driver assumes the keyboard uses the common
  * XT scan code set.
+ * Whilst there are key down (<0x80) and key up (>=0x80) scan codes, This
+ * program ignores the key up scan codes for simplicity. However, they would
+ * be neccessary in implementing features such as 'shift' key functionality.
  */
 
 static char *scan_codes2[0x40] = {"?\0", "?\0", "1\0", "2\0", "3\0", "4\0", "5\0", "6\0",
-                                  "7\0", "8\0", "9\0", "0\0", "-\0", "=\0", "?\0", "?\0",
+                                  "7\0", "8\0", "9\0", "0\0", "-\0", "=\0", "\b\0", "?\0",
                                   "q\0", "w\0", "e\0", "r\0", "t\0", "y\0", "u\0", "i\0",
                                   "o\0", "p\0", "[\0", "]\0", "\n\0", "?\0", "a\0", "s\0", 
                                   "d\0", "f\0", "g\0", "h\0", "j\0", "k\0", "l\0", ";\0",

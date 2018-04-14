@@ -169,6 +169,10 @@ void printChar(char character, int32_t col, int32_t row, char attribute_byte)
     int32_t offset = getVideoMemoryOffset(col, row);
     if (character == '\n') {
         offset = updateOffsetNewLine(offset);
+    } else if (character == '\b') {
+        vidmem[offset - 2] = ' ';
+        vidmem[offset - 1] = attribute_byte;
+        offset -= BYTES_PER_CHAR * 2;
     } else {
         vidmem[offset] = character;
         vidmem[offset + 1] = attribute_byte;
