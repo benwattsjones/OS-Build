@@ -48,3 +48,26 @@ portByteOut:
     pop ebp
     ret
 
+global portDoubleIn:
+
+portDoubleIn:
+    push ebp
+    mov ebp, esp
+    mov dx, [ebp + 8]
+    in eax, dx
+    mov esp, ebp
+    pop ebp
+    ret
+
+global portDoubleOut
+
+portDoubleOut:
+    push ebp
+    mov ebp, esp
+    mov dx, [ebp + 8]
+    mov eax, [ebp + 12]
+    out dx, eax
+    mov esp, ebp
+    pop ebp
+    ret
+

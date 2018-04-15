@@ -1,7 +1,22 @@
+/* OS-Build. Copyright (C) 2017, 2018. Ben Watts-Jones.
+ *
+ * This program is distributed under the GNU General Public License Version 3 
+ * (GPLv3) as published by the Free Software Foundation. You should have 
+ * recieved a copy of the GPLv3 licence along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MECHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GPLv3 license for more details.
+ */
+
 #ifndef DRIVERS_ATAPI_H
 #define DRIVERS_ATAPI_H
 
 #include "../cpu/ioports.h"
+
+// term used to describe bits all being set due to non-existant drive
+#define FLOATING_BUS 0xff
 
 // The starting addresses of the memory mapped IO for the primary and
 // secondary ATA controllers. Valid values for "bus" parameter.
@@ -27,13 +42,13 @@
 
 // 400ns delay required after switching drives. Can be achieved by reading
 // the alternate status register (ATA_REG_DCR_STATUS) four times and ignoring 
-// the result.
+// the result. (Done six times just in case.)
 #define ATA_DRIVE_SWITCH_DELAY(bus) {portByteIn(ATA_REG_DCR_ACR(bus)); \
                                      portByteIn(ATA_REG_DCR_ACR(bus)); \
                                      portByteIn(ATA_REG_DCR_ACR(bus)); \
+                                     portByteIn(ATA_REG_DCR_ACR(bus)); \
+                                     portByteIn(ATA_REG_DCR_ACR(bus)); \
                                      portByteIn(ATA_REG_DCR_ACR(bus));}
-
-#define ATA_ACR_RESET 0x04
 
 #define ATAPI_COMMAND_IDENTIFY 0xa1 
 #define ATA_COMMAND_IDENTIFY 0xec
@@ -58,7 +73,29 @@
 #define ATA_ERROR_TRACK0_NOT_FOUND 0x02
 #define ATA_ERROR_ERROR 0x01
 
+// Definitions of the bits in the DCR (device control) / ACR (alternate status)
+#define ATA_DCR_NEIN 0x01 // set nEIN to stop sending interrupts
+#define ATA_DCR_SOFTWARE_RESET 0x04
+#define ATA_DCR_HIGH_ORDER_BYTE 0x80
 
+enum AtaReturnCodes
+{
+    ERROR,
+    NO_DRIVE,
+    DRIVE_EXISTS,
+    UNKNOWN_DRIVE,
+    SATA_DRIVE,
+    ATA_DRIVE,
+    ATAPI_DRIVE,
+    PRIMARY_BUS,
+    SECONDARY_BUS,
+    MASTER_DEVICE,
+    SLAVE_DEVICE,
+    PRIMARY_MASTER,
+    PRIMARY_SLAVE,
+    SECONDARY_MASTER,
+    SECONDARY_SLAVE,
+};
 
 void initializeATAPI();
 

@@ -10,15 +10,9 @@
  * GPLv3 license for more details.
  */
 
-#ifndef CPU_IO_PORTS_H
-#define CPU_IO_PORTS_H
+#ifndef DRIVERS_PCI_H
+#define DRIVERS_PCI_H
 
-#include <stdint.h>
-
-unsigned char portByteIn(uint16_t port);
-void portByteOut(uint16_t port, unsigned char data);
-
-uint32_t portDoubleIn(uint16_t port);
-void portDoubleOut(uint16_t port, uint32_t data);
+void enumeratePCI();
 
 #endif
