@@ -112,8 +112,53 @@ enum AtaReturnCodes findATAPI()
     return NO_DRIVE;
 }
 
+void detectATAPICapacity(uint32_t bus, uint32_t drive)
+{
+    uint32_t status;
+    portByteOut(ATA_REG_DRIVE(bus), drive);
+    ATA_DRIVE_SWITCH_DELAY(bus);
+    portByteOut(ATA_REG_FEATURES_ERROR(bus), 0); // PIO mode
+    portByteOut(ATA_REG_ADDR_LOW(bus), 0x08);
+    portByteOut(ATA_REG_ADDR_MID(bus), 0x00);
+    portByteOut(ATA_REG_COMMAND_STATUS(bus), ATA_PACKET_COMMAND);
+    while ((status = portByteIn(ATA_REG_COMMAND_STATUS(bus))) & ATA_STATUS_BUSY)
+        __asm__ __volatile__ ("pause");
+    printk("status1: %x\n", status);
+    if (status & ATA_STATUS_ERROR)
+        printk("error sending packet command\n");
+    portWordOut(ATA_REG_DATA(bus), 0x0025);
+    portWordOut(ATA_REG_DATA(bus), 0x0000);
+    portWordOut(ATA_REG_DATA(bus), 0x0000);
+    portWordOut(ATA_REG_DATA(bus), 0x0000);
+    portWordOut(ATA_REG_DATA(bus), 0x0000);
+    portWordOut(ATA_REG_DATA(bus), 0x0000);
+    while ((status = portByteIn(ATA_REG_COMMAND_STATUS(bus))) & ATA_STATUS_BUSY)
+        __asm__ __volatile__ ("pause");
+    printk("status2: %x\n", status);
+    if (status & ATA_STATUS_ERROR)
+        printk("error sending atapi packet\n");
+//    uint32_t last_lba = portWordIn(ATA_REG_DATA(bus));
+//    last_lba = last_lba | ((uint32_t) portWordIn(ATA_REG_DATA(bus)) << 16);
+//    uint32_t block_size = portWordIn(ATA_REG_DATA(bus));
+//    block_size = block_size | ((uint32_t) portWordIn(ATA_REG_DATA(bus)) << 16);
+//    uint32_t cap = (last_lba + 1) * block_size;
+//    printk("block size: %x, last LBA: %x, capacity: %x\n", block_size, last_lba, cap);
+    uint32_t ret1 = portWordIn(ATA_REG_DATA(bus));
+    uint32_t ret2 = portWordIn(ATA_REG_DATA(bus));
+    uint32_t ret3 = portWordIn(ATA_REG_DATA(bus));
+    uint32_t ret4 = portWordIn(ATA_REG_DATA(bus));
+    printk("%x %x %x %x", ret1, ret2, ret3, ret4);
+}
+// giving sector size of 0x0008 - perhaps this is an edianness confusion and it is
+// actually 0x0800?? (2048 bytes as expected)
+
 void initializeATAPI()
 {
-    if (findATAPI() != NO_DRIVE) printk("found atapi drive!\n\0");
+    enum AtaReturnCodes atapi_location = findATAPI();
+    if (atapi_location == NO_DRIVE) 
+        return;
+    uint32_t drive = atapi_location & 0xff;
+    uint32_t bus = atapi_location >> 0x10;
+    detectATAPICapacity(bus, drive);
 }
     

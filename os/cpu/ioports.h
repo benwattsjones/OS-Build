@@ -18,6 +18,9 @@
 unsigned char portByteIn(uint16_t port);
 void portByteOut(uint16_t port, unsigned char data);
 
+uint32_t portWordIn(uint16_t port);
+void portWordOut(uint16_t port, uint16_t data);
+
 uint32_t portDoubleIn(uint16_t port);
 void portDoubleOut(uint16_t port, uint32_t data);
 
